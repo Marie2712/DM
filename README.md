@@ -103,8 +103,8 @@ DM de programmation objet
          def piocher():
            pass
 
-    def jeter():
-        pass
+         def jeter():
+           pass
 
-    def poser():
-        pass
+         def poser():
+           pass
