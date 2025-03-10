@@ -10,14 +10,12 @@ DM de programmation objet
          def __init__(self, valeur, couleur):
               self.valeur = valeur
               self.couleur = couleur
-
-      def le tuple ?
-            self.valeurs = ['As', '2', '3', '4','5', '6', '7', 
+              self.valeurs = ['As', '2', '3', '4','5', '6', '7', 
                              '8', '9', '10', 'Valet', 'Dame', 'Roi']
               self.couleurs = ['Pique', 'Cœur', 'Carreau', 'Trèfle']
-              if valeur not in self.valeur :
+              if valeur not in self.valeurs :
                   raise ValueError ('valeur invalide')
-              if couleur not in self.couleur:
+              if couleur not in self.couleurs:
                   raise ValueError ('couleur invalide')
 
           def __str__(self):
