@@ -38,7 +38,7 @@ DM de programmation objet
 
       class Combinaison:
 
-          def __init__(self):
+          def __init__(self, combinaison):
             self.combinaison = combinaison
             self.combinaisons = ['brelan', 'carre', 'sequence']
               if combinaison not in self.combinaisons:
