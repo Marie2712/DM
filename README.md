@@ -2,7 +2,7 @@
 DM de programmation objet
 
 
-# class carte
+# class Carte
 
       class Carte:
       """
@@ -23,7 +23,7 @@ DM de programmation objet
          def __hash__(self):
              pass
 
-# class combinaison
+# class Combinaison
 
       class Combinaison:
 
@@ -75,7 +75,7 @@ DM de programmation objet
 
 # class Reserve 
 
-      class reserve:
+      class Reserve:
 
           def __init__(self):
            pass
@@ -85,7 +85,7 @@ DM de programmation objet
 
 # class Defause
 
-      class defausse:
+      class Defausse:
 
          def __init__(self):
            pass
@@ -95,7 +95,7 @@ DM de programmation objet
 
 # class Main
 
-      class main:
+      class Main:
 
         def __init__(self):
            pass
