@@ -38,13 +38,12 @@ DM de programmation objet
 
       class Combinaison:
 
-          def __init__(self, combinaison, cartes:tuple[Carte]):
-         self.carte = cartes
-          if isinstance(cartes, tuple):
-           raise TypeError("Les cartes doivent être une liste.")
-            self.combinaison = combinaison
+          def __init__(self, cartes:tuple[Carte]):
+            self.carte = cartes
+            if isinstance(cartes, tuple):
+                 raise TypeError("Les cartes doivent être une liste.")
             self.combinaisons = ['brelan', 'carre', 'sequence']
-              if combinaison not in self.combinaisons:
+            if cartes not in self.combinaisons:
                   raise ValueError ("ça n'est pas une combinaison")
 
           def __eq__(self):
