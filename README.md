@@ -13,7 +13,7 @@ DM de programmation objet
               if not isinstance(valeur, str):
                     raise TypeError("La valeur doit être une chaine de caractères.")
               if not isinstance(couleur, str):
-                    raise TypeError("La valeur doit être une chaine de caractères.")
+                    raise TypeError("La couleur doit être une chaine de caractères.")
               self.valeurs = ['As', '2', '3', '4','5', '6', '7', 
                              '8', '9', '10', 'Valet', 'Dame', 'Roi']
               self.couleurs = ['Pique', 'Cœur', 'Carreau', 'Trèfle']
