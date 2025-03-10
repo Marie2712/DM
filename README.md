@@ -41,7 +41,7 @@ DM de programmation objet
           def __init__(self, combinaison, cartes:tuple[Carte]):
          self.carte = cartes
           if isinstance(cartes, tuple):
-           raise TypeError("Les cartes doivent être unun tuple.")
+           raise TypeError("Les cartes doivent être une liste.")
             self.combinaison = combinaison
             self.combinaisons = ['brelan', 'carre', 'sequence']
               if combinaison not in self.combinaisons:
