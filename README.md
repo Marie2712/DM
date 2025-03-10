@@ -39,7 +39,10 @@ DM de programmation objet
       class Combinaison:
 
           def __init__(self):
-           pass
+            self.combinaison = combinaison
+            self.combinaisons = ['brelan', 'carre', 'sequence']
+              if combinaison not in self.combinaisons:
+                  raise ValueError ("ça n'est pas une combinaison")
 
           def __eq__(self):
            pass
