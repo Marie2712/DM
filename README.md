@@ -9,7 +9,7 @@ DM de programmation objet
       """
          def __init__(self, valeur, couleur):
               self.valeur = ['As', '2', '3', '4','5', '6', '7', 
-                       '8', '9', '10', 'Valet', 'Dame', 'Roi']
+                             '8', '9', '10', 'Valet', 'Dame', 'Roi']
               self.couleur = ['Pique', 'Cœur', 'Carreau', 'Trèfle']
               if valeur not in self.valeur :
                   raise ValueError ('valeur invalide')
