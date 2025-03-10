@@ -7,8 +7,12 @@ DM de programmation objet
       class Carte:
       """
       """
-         def __init__(self, valeurs, couleurs):
-              self.valeurs = ['As', '2', '3', '4','5', '6', '7', 
+         def __init__(self, valeur, couleur):
+              self.valeur = valeur
+              self.couleur = couleur
+
+      def le tuple ?
+            self.valeurs = ['As', '2', '3', '4','5', '6', '7', 
                              '8', '9', '10', 'Valet', 'Dame', 'Roi']
               self.couleurs = ['Pique', 'Cœur', 'Carreau', 'Trèfle']
               if valeur not in self.valeur :
@@ -16,18 +20,6 @@ DM de programmation objet
               if couleur not in self.couleur:
                   raise ValueError ('couleur invalide')
 
-        def __init__(self, valeurs, couleurs, valeur, couleur):
-    self.__valeurs = ['As', '2', '3', '4','5', '6', '7', 
-                         '8', '9', '10', 'Valet', 'Dame', 'Roi']
-    self.__couleurs = ['Pique', 'Cœur', 'Carreau', 'Trèfle']
-    self.couleur = couleur 
-    self.valeur = valeur 
-    if valeur not in self.valeur :
-        raise ValueError ('valeur invalide')
-    if couleur not in self.couleur:
-        raise ValueError ('couleur invalide')
-
-        
           def __str__(self):
               return f"{self.valeur} de {self.couleur}"
 
