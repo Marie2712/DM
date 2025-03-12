@@ -5,27 +5,19 @@ DM de programmation objet
 # class Carte
 
 class Carte:
-  """Cette classe permet d'afficher de manière particulière les cartes du jeu 
-
-Parameters 
-----------
-Valeur : __valeur
+    """Cette classe permet d'afficher de manière particulière les cartes du jeu 
+    Parameters 
+    ----------
+    
+    Valeur : __valeur
     Toutes les valeurs que les cartes peuvent prendre.
-
-Couleur : __couleur
+    
+    Couleur : __couleur
     Tous les symboles que peuvent prendre les cartes.
 
-  """
-__valeur = ['As', '2', '3', '4','5', '6', '7', '8', '9', '10', 'Valet', 'Dame', 'Roi']
-__couleur = ['Pique', 'Cœur', 'Carreau', 'Trèfle']
-
-    @classmethod
-    def VALEURS(cls):
-    return cls.__VALEURS
-  
-    @classmethod
-    def COULEURS(cls):
-      return cls.__COULEURS
+    """
+    __valeur = ('As', '2', '3', '4','5', '6', '7', '8', '9', '10', 'Valet', 'Dame', 'Roi')
+    __couleur = ('Pique', 'Coeur', 'Carreau', 'Trêfle')
       
     def __init__(self, valeur, couleur):
     self.__couleur = couleur 
@@ -37,6 +29,13 @@ __couleur = ['Pique', 'Cœur', 'Carreau', 'Trèfle']
     if couleur not in self.__couleur:
         raise ValueError ('couleur invalide')
     
+    @property
+    def VALEURS(self):
+    return self.__VALEURS
+  
+    @property
+    def COULEURS(self):
+      return self.__COULEURS
   
     def __str__(self):
           return f"{self.valeur} de {self.couleur}"
@@ -55,6 +54,7 @@ __couleur = ['Pique', 'Cœur', 'Carreau', 'Trèfle']
     def __hash__(self):
         """Permet de rendre les cartes hashables."""
         return hash(repr(self))
+
 
 # test pour la classe carte
 
