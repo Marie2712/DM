@@ -4,35 +4,84 @@ DM de programmation objet
 
 # class Carte
 
-      class Carte:
-      """
-      """
-         def __init__(self, valeur, couleur):
-              self.valeur = valeur
-              self.couleur = couleur
-              if not isinstance(valeur, str):
-                    raise TypeError("La valeur doit être une chaine de caractères.")
-              if not isinstance(couleur, str):
-                    raise TypeError("La couleur doit être une chaine de caractères.")
-              self.valeurs = ['As', '2', '3', '4','5', '6', '7', 
-                             '8', '9', '10', 'Valet', 'Dame', 'Roi']
-              self.couleurs = ['Pique', 'Cœur', 'Carreau', 'Trèfle']
-              if valeur not in self.valeurs :
-                  raise ValueError ('valeur invalide')
-              if couleur not in self.couleurs:
-                  raise ValueError ('couleur invalide')
+class Carte:
+  """Cette classe permet d'afficher de manière particulière les cartes du jeu 
 
-          def __str__(self):
-              return f"{self.valeur} de {self.couleur}"
+Parameters 
+----------
+Valeur : __valeur
+    Toutes les valeurs que les cartes peuvent prendre.
 
-         def __repr__(self):
-            pass
+Couleur : __couleur
+    Tous les symboles que peuvent prendre les cartes.
 
-         def __eq__(self):
-            pass
+  """
+__valeur = ['As', '2', '3', '4','5', '6', '7', '8', '9', '10', 'Valet', 'Dame', 'Roi']
+__couleur = ['Pique', 'Cœur', 'Carreau', 'Trèfle']
+
+    @classmethod
+    def VALEURS(cls):
+    return cls.__VALEURS
+  
+    @classmethod
+    def COULEURS(cls):
+      return cls.__COULEURS
+      
+    def __init__(self, valeur, couleur):
+    self.__couleur = couleur 
+    self.__valeur = valeur 
+    if not isinstance(valeur, str):
+        raise TypeError("La valeur doit être une chaine de caractères.")
+    if valeur not in self.__valeur:
+        raise ValueError ('valeur invalide')
+    if couleur not in self.__couleur:
+        raise ValueError ('couleur invalide')
     
-         def __hash__(self):
-             pass
+  
+    def __str__(self):
+          return f"{self.valeur} de {self.couleur}"
+
+    def __repr__(self):
+        """Renvoie la représentation officielle d'une carte."""
+        return f"Carte('{self.__valeur}', '{self.__couleur}')"
+    
+
+    def __eq__(self, valeur1, couleur1):
+        """ Renvoie un booléen indiquant si la carte est égale à un autre objet."""
+        if not isinstance(other, Carte):
+            return False
+        return self.__valeur == other.__valeur and self.__couleur == other.__couleur
+
+    def __hash__(self):
+        """Permet de rendre les cartes hashables."""
+        return hash(repr(self))
+
+# test pour la classe carte
+
+import re 
+
+
+from class 1 import Carte 
+import pytest
+
+
+@pytest.mark.parametrize(
+    'kwargs, message_erreur',
+    [
+        ({'valeur': '567'}, "La valeur doit être une chaine de caractères."),
+        ({'valeur': {"Bleu"}}, "La valeur doit être une chaine de caractères."),
+
+        ({'couleur': '13579'}, "Le vol doit être une instance de Vol."),
+        ({'couleur': ['vol']}, "Le vol doit être une instance de Vol."),
+        ]
+)
+
+def test_carte_init(reservation_kwargs, kwargs, message_erreur):
+    reservation_kwargs.update(**kwargs)
+    with pytest.raises(TypeError, match=re.escape(message_erreur)):
+        Carte(**reservation_kwargs)
+
+
 
 # class Combinaison
 
