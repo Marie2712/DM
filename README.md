@@ -73,14 +73,14 @@ class Carte:
 
 # test pour la classe carte
 
-import re 
+    import re 
 
 
-from class 1 import Carte 
-import pytest
+    from class 1 import Carte 
+    import pytest
 
 
-@pytest.mark.parametrize(
+    @pytest.mark.parametrize(
     'kwargs, message_erreur',
     [
         ({'valeur': '567'}, "La valeur doit être une chaine de caractères."),
@@ -91,11 +91,11 @@ import pytest
         ]
 )
 
-def test_carte_init(reservation_kwargs, kwargs, message_erreur):
-    reservation_kwargs.update(**kwargs)
-    with pytest.raises(TypeError, match=re.escape(message_erreur)):
-        Carte(**reservation_kwargs)
-
+    def test_carte_init(reservation_kwargs, kwargs, message_erreur):
+        reservation_kwargs.update(**kwargs)
+        with pytest.raises(TypeError, match=re.escape(message_erreur)):
+            Carte(**reservation_kwargs)
+    
 
 
 # class Combinaison
