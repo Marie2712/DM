@@ -89,7 +89,7 @@ class Carte:
         ({'couleur': '13579'}, "Le vol doit être une instance de Vol."),
         ({'couleur': ['vol']}, "Le vol doit être une instance de Vol."),
         ]
-)
+    )
 
     def test_carte_init(reservation_kwargs, kwargs, message_erreur):
         reservation_kwargs.update(**kwargs)
