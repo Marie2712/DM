@@ -17,40 +17,24 @@ class Carte:
     Tous les symboles que peuvent prendre les cartes.
 
     """
-    __valeur = ('As', '2', '3', '4','5', '6', '7', '8', '9', '10', 'Valet', 'Dame', 'Roi')
-    __couleur = ('Pique', 'Coeur', 'Carreau', 'Trêfle')
+    __VALEURS = ('As', '2', '3', '4','5', '6', '7', '8', '9', '10', 'Valet', 'Dame', 'Roi')
+    __COULEURS = ('Pique', 'Coeur', 'Carreau', 'Trêfle')
       
     def __init__(self, valeur, couleur):
-    self.__couleur = couleur 
-    self.__valeur = valeur 
-    if not isinstance(valeur, str):
-        raise TypeError("La valeur doit être une chaine de caractères.")
-    if valeur not in self.__valeur:
-        raise ValueError ('valeur invalide')
-    if couleur not in self.__couleur:
-        raise ValueError ('couleur invalide')
+        self.__couleur = couleur 
+        self.__valeur = valeur 
+        if not isinstance(valeur, __VALEURS):
+            raise TypeError("La valeur doit être une chaine de caractères.")
+        if not isinstance(couleur, __COULEURS):
+            raise TypeError("La couleur doit être une chaine de caractères.")
 
-    #autre code possible :
-    def __init__(self, valeur, couleur):
-        self.valeur = valeur
-        self.couleur = couleur
-        self.valeurs = [
-            'As', '2', '3', '4', '5', '6', '7',
-            '8', '9', '10', 'Valet', 'Dame', 'Roi'
-            ]
-        self.couleurs = ['Pique', 'Cœur', 'Carreau', 'Trèfle']
-        if valeur not in self.valeurs:
-            raise ValueError('valeur invalide')
-        if couleur not in self.couleurs:
-            raise ValueError('couleur invalide')
-    
     @property
     def VALEURS(self):
-    return self.__VALEURS
+        return self.__VALEURS
   
     @property
     def COULEURS(self):
-      return self.__COULEURS
+        return self.__COULEURS
   
     def __str__(self):
           return f"{self.valeur} de {self.couleur}"
@@ -69,6 +53,7 @@ class Carte:
     def __hash__(self):
         """Permet de rendre les cartes hashables."""
         return hash(repr(self))
+
 
 
 # test pour la classe carte
