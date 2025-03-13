@@ -208,6 +208,40 @@ class Carte:
           def retirer_carte():
            pass
 
+## __LISTES_CARTES selon CHATGPT
+
+    class _ListeCartes:
+
+
+        def __init__(self, cartes):
+                self.cartes = cartes
+    
+        def __eq__(self, autre):
+            return isinstance(autre, _ListeCartes) and self.cartes == autre.cartes
+    
+        def __str__(self):
+            return str([str(carte) for carte in self.cartes])
+
+        def __len__(self):
+            return len(self.cartes)
+
+        def melanger(self):
+            random.shuffle(self.cartes)
+
+        def ajouter_carte(self, carte):
+            if not isinstance(carte, Carte):
+                raise ValueError("L'argument doit être une instance de Carte.")
+            self.cartes.append(carte)
+
+        def retirer_carte(self, indice):
+            if len(self.cartes) == 0:
+                raise IndexError("La liste des cartes est vide.")
+            if indice < 0 or indice >= len(self.cartes):
+                raise IndexError("Indice invalide.")
+            return self.cartes.pop(indice)
+
+
+
 # class Reserve 
 
       class Reserve:
