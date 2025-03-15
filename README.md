@@ -326,6 +326,10 @@ class _ListeCartes:
 # class Reserve 
 
       class Reserve:
+      """
+      La réserve correspond au paquet de cartes dans lequel les joueurs piochent les cartes.
+      Il est possible de distribuer les cartes aux joueurs pour commencer une partie.
+      """
 
           def __init__(self):
         """
