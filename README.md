@@ -372,13 +372,28 @@ class _ListeCartes:
 
 # class Defause
 
-      class Defausse:
+"""Implémentation de la classe Defausse."""
 
-         def __init__(self):
-           pass
 
-          def vider():
-           pass
+class Defausse(_ListeCartes):
+    """La classe Defausse permet de modéliser la défausse, c'est-à-dire la liste des cartes jetées"""
+
+    def __init__(self):
+        """Cette fonction permet d'initialiser la defausse"""
+        super().__init__()
+
+    def vider(self, reserve):
+        """Cette fonction permet de vider la défausse et de l'ajouter à la fin de la résèrve
+        après l'avoir mélangée.
+        Ainsi,"""
+
+        if not isinstance(reserve, Reserve):
+            raise ValueError("La reserve n'est pas valide car ce n'est pas une Reserve")
+        self.melanger()  # On veut mélanger donc on réutilise la fonction mélanger
+
+        for _ in range(len(self.cartes)):
+            reserve.ajouter_carte(self.retirer_carte(0))
+
 
 # class Main
 
