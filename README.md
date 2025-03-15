@@ -65,21 +65,27 @@ DM de programmation objet
     import pytest
 
 
-    @pytest.mark.parametrize(
-    'kwargs, message_erreur',
+  jade : on est pas obligé de garder ca 
+@pytest.mark.parametrize(
+    "valeur, couleur, message_erreur",
     [
-        ({'valeur': '567'}, "La valeur doit être une chaine de caractères."),
-        ({'valeur': {"Bleu"}}, "La valeur doit être une chaine de caractères."),
+        # Nous allons traiter tous les cas ! :
+        # 1er cas : la valeur n'est pas une chaîne de caractères
+        (345, "Coeur", "La valeur doit être une chaine de caractères."),
+        ({"valeur": "Vert"}, "Trêfle", "La valeur doit être une chaine de caractères."),
+        # 2ème cas : la couleur n'est pas une chaîne de caractères
+        ("As", 13579, "La couleur doit être une chaine de caractères."),
+        ("As", ["Coeur"], "La couleur doit être une chaine de caractères."),
+        # 3ème cas : la valeur n'est pas valide
+        ("10", "Bleu", "La couleur doit être une des couleurs valides."),
+        # 4ème : la couleur n'est pas valide
+        ("As", "Rose", "La couleur doit être une des couleurs valides."),
+    ],
+)
+def test_carte_init(valeur, couleur, message_erreur):
+    with pytest.raises((TypeError, ValueError), match=message_erreur):
+        Carte(valeur, couleur)
 
-        ({'couleur': '13579'}, "Le vol doit être une instance de Vol."),
-        ({'couleur': ['vol']}, "Le vol doit être une instance de Vol."),
-        ]
-    )
-
-    def test_carte_init(reservation_kwargs, kwargs, message_erreur):
-        reservation_kwargs.update(**kwargs)
-        with pytest.raises(TypeError, match=re.escape(message_erreur)):
-            Carte(**reservation_kwargs)
     
 
 
