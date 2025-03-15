@@ -5,54 +5,54 @@ DM de programmation objet
 # class Carte
 
 
-class Carte:
-    """Cette classe permet d'afficher de manière particulière les cartes du jeu 
-    Parameters 
-    ----------
+    class Carte:
+        """Cette classe permet d'afficher de manière particulière les cartes du jeu 
+        Parameters 
+        ----------
     
-    Valeur : __valeur
-    Toutes les valeurs que les cartes peuvent prendre.
+        Valeur : __valeur
+        Toutes les valeurs que les cartes peuvent prendre.
     
-    Couleur : __couleur
-    Tous les symboles que peuvent prendre les cartes.
+        Couleur : __couleur
+        Tous les symboles que peuvent prendre les cartes.
 
-    """
-    __VALEURS = ('As', '2', '3', '4','5', '6', '7', '8', '9', '10', 'Valet', 'Dame', 'Roi')
-    __COULEURS = ('Pique', 'Coeur', 'Carreau', 'Trêfle')
+        """
+        __VALEURS = ('As', '2', '3', '4','5', '6', '7', '8', '9', '10', 'Valet', 'Dame', 'Roi')
+        __COULEURS = ('Pique', 'Coeur', 'Carreau', 'Trêfle')
       
-    def __init__(self, valeur, couleur):
-        self.__couleur = couleur 
-        self.__valeur = valeur 
-        if not isinstance(valeur, __VALEURS):
-            raise TypeError("La valeur doit être une chaine de caractères.")
-        if not isinstance(couleur, __COULEURS):
-            raise TypeError("La couleur doit être une chaine de caractères.")
+        def __init__(self, valeur, couleur):
+            self.__couleur = couleur 
+            self.__valeur = valeur 
+            if not isinstance(valeur, __VALEURS):
+                raise TypeError("La valeur doit être une chaine de caractères.")
+            if not isinstance(couleur, __COULEURS):
+                raise TypeError("La couleur doit être une chaine de caractères.")
 
-    @property
-    def VALEURS(self):
-        return self.__VALEURS
+        @property
+        def VALEURS(self):
+            return self.__VALEURS
   
-    @property
-    def COULEURS(self):
-        return self.__COULEURS
+        @property
+        def COULEURS(self):
+            return self.__COULEURS
   
-    def __str__(self):
-          return f"{self.valeur} de {self.couleur}"
+        def __str__(self):
+              return f"{self.valeur} de {self.couleur}"
 
-    def __repr__(self):
-        """Renvoie la représentation officielle d'une carte."""
-        return f"Carte('{self.__valeur}', '{self.__couleur}')"
+        def __repr__(self):
+            """Renvoie la représentation officielle d'une carte."""
+            return f"Carte('{self.__valeur}', '{self.__couleur}')"
     
 
-    def __eq__(self, valeur1, couleur1):
-        """ Renvoie un booléen indiquant si la carte est égale à un autre objet."""
-        if not isinstance(other, Carte):
-            return False
-        return self.__valeur == other.__valeur and self.__couleur == other.__couleur
+        def __eq__(self, valeur1, couleur1):
+            """ Renvoie un booléen indiquant si la carte est égale à un autre objet."""
+            if not isinstance(other, Carte):
+                return False
+            return self.__valeur == other.__valeur and self.__couleur == other.__couleur
 
-    def __hash__(self):
-        """Permet de rendre les cartes hashables."""
-        return hash(repr(self))
+        def __hash__(self):
+            """Permet de rendre les cartes hashables."""
+            return hash(repr(self))
 
 
 
