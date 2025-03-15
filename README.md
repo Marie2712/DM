@@ -328,10 +328,43 @@ class _ListeCartes:
       class Reserve:
 
           def __init__(self):
-           pass
+        """
+        On fait appel à la fonction init de la classe mère __ListeCartes
+        """
+        super().__init__() 
+    
+        def distribuer(self, nb_joueurs, indice_premier_joueur, nb_cartes):
+            """
+            On corrige d'abord toutes les erreurs possibles, 
+            mauvais nombre de jouers, mauvais indice
+            et nombre de cartes à ditribuer par personnes. 
 
-          def distribuer():
-           pass
+            Puis on modélise la distribution des cartes
+            et on renvoie les mains des joueurs. 
+            """
+            if nb_joueurs < 2 or nb_joueurs > 5:
+                raise ValueError("Le nombre de joueurs doit être compris entre 2 et 5.")
+            if indice_premier_joueur < 0 or indice_premier_joueur >= nb_joueurs:
+                raise ValueError("L'indice du premier joueur est invalide.")
+            if nb_cartes not in ["13/14", "14/15"]:
+                raise ValueError("Le nombre de cartes à distribuer doit être '13/14' ou '14/15'.")
+            if nb_cartes == "13/14":
+                cartes_a_distribuer = 14
+            else:
+                cartes_a_distribuer = 15
+            if len(self.cartes) < nb_joueurs * cartes_a_distribuer:
+                raise ValueError("Il n'y a pas assez de cartes dans la réserve.")
+            mains = [[] for _ in range(nb_joueurs)]
+
+            compteur = indice_premier_joueur 
+            for i in range(cartes_a_distribuer * nb_joueurs):
+                joueur = compteur % nb_joueurs 
+                carte = self.__cartes.pop(0)
+                mains[joueur].append(carte)
+                compteur += 1 
+        
+            return mains 
+
 
 # class Defause
 
