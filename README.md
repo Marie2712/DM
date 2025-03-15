@@ -58,14 +58,17 @@ DM de programmation objet
 
 # test pour la classe carte
 
+
+
+  jade : on est pas obligé de garder ca 
+
+  
     import re 
 
 
     from class 1 import Carte 
     import pytest
 
-
-  jade : on est pas obligé de garder ca 
 @pytest.mark.parametrize(
     "valeur, couleur, message_erreur",
     [
