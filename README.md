@@ -295,8 +295,8 @@ import re
 
 # class _ListeCartes
 
-import copy
-import random
+    import copy
+    import random
 
     from carte import Carte
 
@@ -484,76 +484,76 @@ import random
 
 # test class reserve ( bcp de chat) 
 
-from reserve import Reserve
-from carte import Carte
-
-
-def test_distribution_correcte():
-    print("Test : distribution correcte (3 joueurs, 15 cartes chacun)")
-    reserve = Reserve()
-
-    # Ajout de 45 cartes
-    cartes = []
-    for i in range(45):
-        valeur = Carte.VALEURS[i % len(Carte.VALEURS)]
-        couleur = Carte.COULEURS[i % len(Carte.COULEURS)]
-        cartes.append(Carte(valeur, couleur))
-
-    reserve.ajouter_cartes(cartes)
-
-    mains = reserve.distribuer(nb_joueurs=3, indice_premier_joueur=1, nb_cartes="14/15")
-
-    assert len(mains) == 3
-    assert all(len(main) == 15 for main in mains)
-
-    print("La distribution a bien été réalisée.")
-
-
-def test_nb_joueurs_invalide():
-    print("Test : nombre de joueurs invalide")
-    reserve = Reserve()
-    try:
-        reserve.distribuer(nb_joueurs=1, indice_premier_joueur=0, nb_cartes="14/15")
-    except ValueError as e:
-        assert str(e) == "Le nombre de joueurs doit être compris entre 2 et 5."
-        print("Le test pour le nombre de joueurs invalide a réussi.")
-
-
-def test_indice_premier_joueur_invalide():
-    print("Test : indice premier joueur invalide")
-    reserve = Reserve()
-    try:
-        reserve.distribuer(nb_joueurs=3, indice_premier_joueur=3, nb_cartes="14/15")
-    except ValueError as e:
-        assert str(e) == "L'indice du premier joueur est invalide."
-        print("Le test pour l'indice du premier joueur invalide a réussi.")
-
-
-def test_nb_cartes_invalide():
-    print("Test : nombre de cartes invalide")
-    reserve = Reserve()
-    try:
-        reserve.distribuer(nb_joueurs=3, indice_premier_joueur=0, nb_cartes="12/13")
-    except ValueError as e:
-        assert (
-            str(e) == "Le nombre de cartes à distribuer doit être '13/14' ou '14/15'."
-        )
-        print("Le test pour le nombre de cartes invalide a réussi")
-
-
-def test_pas_assez_de_cartes():
-    print("Test : pas assez de cartes dans la réserve")
-    reserve = Reserve()
-
-    # Ajoute 10 cartes seulement, donc pas assez
-    cartes = [Carte("As", "Pique") for _ in range(10)]
-    reserve.ajouter_cartes(cartes)
-
-    try:
-        reserve.distribuer(nb_joueurs=3, indice_premier_joueur=0, nb_cartes="14/15")
-    except ValueError as e:
-        assert str(e) == "Il n'y a pas assez de cartes dans la réserve."
-        print("Le test pour le cas 'pas assez de cartes' a réussi.")
+    from reserve import Reserve
+    from carte import Carte
+    
+    
+    def test_distribution_correcte():
+        print("Test : distribution correcte (3 joueurs, 15 cartes chacun)")
+        reserve = Reserve()
+    
+        # Ajout de 45 cartes
+        cartes = []
+        for i in range(45):
+            valeur = Carte.VALEURS[i % len(Carte.VALEURS)]
+            couleur = Carte.COULEURS[i % len(Carte.COULEURS)]
+            cartes.append(Carte(valeur, couleur))
+    
+        reserve.ajouter_cartes(cartes)
+    
+        mains = reserve.distribuer(nb_joueurs=3, indice_premier_joueur=1, nb_cartes="14/15")
+    
+        assert len(mains) == 3
+        assert all(len(main) == 15 for main in mains)
+    
+        print("La distribution a bien été réalisée.")
+    
+    
+    def test_nb_joueurs_invalide():
+        print("Test : nombre de joueurs invalide")
+        reserve = Reserve()
+        try:
+            reserve.distribuer(nb_joueurs=1, indice_premier_joueur=0, nb_cartes="14/15")
+        except ValueError as e:
+            assert str(e) == "Le nombre de joueurs doit être compris entre 2 et 5."
+            print("Le test pour le nombre de joueurs invalide a réussi.")
+    
+    
+    def test_indice_premier_joueur_invalide():
+        print("Test : indice premier joueur invalide")
+        reserve = Reserve()
+        try:
+            reserve.distribuer(nb_joueurs=3, indice_premier_joueur=3, nb_cartes="14/15")
+        except ValueError as e:
+            assert str(e) == "L'indice du premier joueur est invalide."
+            print("Le test pour l'indice du premier joueur invalide a réussi.")
+    
+    
+    def test_nb_cartes_invalide():
+        print("Test : nombre de cartes invalide")
+        reserve = Reserve()
+        try:
+            reserve.distribuer(nb_joueurs=3, indice_premier_joueur=0, nb_cartes="12/13")
+        except ValueError as e:
+            assert (
+                str(e) == "Le nombre de cartes à distribuer doit être '13/14' ou '14/15'."
+            )
+            print("Le test pour le nombre de cartes invalide a réussi")
+    
+    
+    def test_pas_assez_de_cartes():
+        print("Test : pas assez de cartes dans la réserve")
+        reserve = Reserve()
+    
+        # Ajoute 10 cartes seulement, donc pas assez
+        cartes = [Carte("As", "Pique") for _ in range(10)]
+        reserve.ajouter_cartes(cartes)
+    
+        try:
+            reserve.distribuer(nb_joueurs=3, indice_premier_joueur=0, nb_cartes="14/15")
+        except ValueError as e:
+            assert str(e) == "Il n'y a pas assez de cartes dans la réserve."
+            print("Le test pour le cas 'pas assez de cartes' a réussi.")
 
 
 
@@ -562,45 +562,45 @@ def test_pas_assez_de_cartes():
 """Implémentation de la classe Defausse."""
 
 
-class Defausse(_ListeCartes):
-    """La classe Defausse permet de modéliser la défausse, c'est-à-dire la liste des cartes jetées"""
-
-    def __init__(self):
-        """Cette fonction permet d'initialiser la defausse"""
-        super().__init__()
-
-    def vider(self, reserve):
-        """Cette fonction permet de vider la défausse et de l'ajouter à la fin de la résèrve
-        après l'avoir mélangée.
-        Ainsi,"""
-
-        if not isinstance(reserve, Reserve):
-            raise ValueError("La reserve n'est pas valide car ce n'est pas une Reserve")
-        self.melanger()  # On veut mélanger donc on réutilise la fonction mélanger
-
-        for _ in range(len(self.cartes)):
-            reserve.ajouter_carte(self.retirer_carte(0))
-
-
-# test class Defausse
-
-"""Implémentation des tests pour la classe Defausse."""
-
-@pytest.mark.parametrize(
-    "param, resultat_voulu",
-    [
-        ([], []),
-        ([Carte("Dame", "Trêfle"), Carte("Dame", "Trêfle")]),
-        (
-            [Carte("Dame", "Trêfle"), Carte("Dame", "Trêfle")],
-            [Carte("Dame", "Trêfle"), Carte("Dame", "Trêfle")],
-        ),
-    ],
-)
-def test_defausse_init(param, resultat_voulu):
-    """Teste que vider() lève une erreur si le paramètre n'est pas une Reserve."""
-    defausse = Defausse(param)
-    assert Defausse._Listecarte == resultat_voulu
+    class Defausse(_ListeCartes):
+        """La classe Defausse permet de modéliser la défausse, c'est-à-dire la liste des cartes jetées"""
+    
+        def __init__(self):
+            """Cette fonction permet d'initialiser la defausse"""
+            super().__init__()
+    
+        def vider(self, reserve):
+            """Cette fonction permet de vider la défausse et de l'ajouter à la fin de la résèrve
+            après l'avoir mélangée.
+            Ainsi,"""
+    
+            if not isinstance(reserve, Reserve):
+                raise ValueError("La reserve n'est pas valide car ce n'est pas une Reserve")
+            self.melanger()  # On veut mélanger donc on réutilise la fonction mélanger
+    
+            for _ in range(len(self.cartes)):
+                reserve.ajouter_carte(self.retirer_carte(0))
+    
+    
+    # test class Defausse
+    
+    """Implémentation des tests pour la classe Defausse."""
+    
+    @pytest.mark.parametrize(
+        "param, resultat_voulu",
+        [
+            ([], []),
+            ([Carte("Dame", "Trêfle"), Carte("Dame", "Trêfle")]),
+            (
+                [Carte("Dame", "Trêfle"), Carte("Dame", "Trêfle")],
+                [Carte("Dame", "Trêfle"), Carte("Dame", "Trêfle")],
+            ),
+        ],
+    )
+    def test_defausse_init(param, resultat_voulu):
+        """Teste que vider() lève une erreur si le paramètre n'est pas une Reserve."""
+        defausse = Defausse(param)
+        assert Defausse._Listecarte == resultat_voulu
 
 
 # class Main
