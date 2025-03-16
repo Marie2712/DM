@@ -298,105 +298,107 @@ import re
 import copy
 import random
 
+    from carte import Carte
 
-class _ListeCartes:
-    """Cette classe représente une liste de cartes.
-    Et elle fournit des fonctionnalités communes à toutes les classes
-    caractérisées par une liste de cartes.
-    """
-
-    def __init__(self, cartes=None):
+    
+    class _ListeCartes:
+        """Cette classe représente une liste de cartes.
+        Et elle fournit des fonctionnalités communes à toutes les classes
+        caractérisées par une liste de cartes.
         """
-        __init__ fonction ainsi :
-        - si cartes est None, on initialise avec deux jeux complets de cartes.
-        - sinon, si c'est une liste de cartes, on l'utilise telle quelle.
-        - sinon, on lève une erreur.
-        """
-        if cartes is None:
-            toutes_cartes = []
-            for valeur in Carte._Carte__VALEURS:
-                for couleur in Carte._Carte__COULEURS:
-                    carte = Carte(valeur, couleur)
-                    toutes_cartes.append(carte)
-
-                    self.__cartes = (
-                        toutes_cartes * 2
-                    )  # Pour qu'il y ait deux jeux de carte
-
-        elif isinstance(cartes, list) and all(
-            isinstance(carte, Carte) for carte in cartes
-        ):
-            self.__cartes = cartes
-
-        else:
-            raise ValueError("L'argument doit être None ou une liste de Cartes.")
-
-    @property
-    def cartes(self):
-        return copy.deepcopy(self.__cartes)
-
-    def __eq__(self, other):
-        """
-        __eq__ vérifie si deux instances de _ListeCartes sont égales, donc :
-        - de même type
-        - listes de cartes identiques (ordre inclus)
-
-        Cette fonction renvoie un booléen.
-        """
-        if not isinstance(other, _ListeCartes):
-            return False
-        return (
-            self.__cartes == other.__cartes
-        )  # car on veut que ça return True ou False
-
-    def __str__(self):
-        """
-        Renvoie la représentation informelle de la liste de cartes.
-        Exemple : [As de Pique, Roi de Coeur]
-        """
-        # Chaque carte s'affiche via son __str__()
-        return f"[{', '.join(str(carte) for carte in self.__cartes)}]"
-
-    def __len__(self):
-        """
-        Renvoie le nombre de cartes dans la liste.
-        Permet l'utilisation de len(instance).
-        """
-        return len(self.__cartes)
-
-    def melanger(self):
-        """
-        Mélange la liste des cartes.
-        """
-        random.shuffle(self.__cartes)
-
-    def ajouter_carte(self, carte):
-        """
-        Ajoute une carte à la fin de la liste.
-
-        Lève une erreur si ce n'est pas une instance de Carte.
-        """
-        if not isinstance(carte, Carte):
-            raise TypeError("L'objet ajouté doit être une instance de Carte.")
-        self.__cartes.append(carte)
-
-    def retirer_carte(self, indice=-1):
-        """
-        Retire et renvoie la carte à l'indice donné (par défaut la dernière carte).
-
-        Lève une erreur si la liste est vide ou si l'indice est invalide.
-        """
-        if len(self.__cartes) == 0:
-            raise IndexError(
-                "Il est impossible de retirer une carte car la liste est vide."
-            )
-
-        if indice < -len(self.__cartes) or indice >= len(self.__cartes):
-            raise IndexError("Indice invalide.")
-
-        carte_retiree = self.__cartes[indice]
-        del self.__cartes[indice]
-        return carte_retiree
+    
+        def __init__(self, cartes=None):
+            """
+            __init__ fonction ainsi :
+            - si cartes est None, on initialise avec deux jeux complets de cartes.
+            - sinon, si c'est une liste de cartes, on l'utilise telle quelle.
+            - sinon, on lève une erreur.
+            """
+            if cartes is None:
+                toutes_cartes = []
+                for valeur in Carte._Carte__VALEURS:
+                    for couleur in Carte._Carte__COULEURS:
+                        carte = Carte(valeur, couleur)
+                        toutes_cartes.append(carte)
+    
+                        self.__cartes = (
+                            toutes_cartes * 2
+                        )  # Pour qu'il y ait deux jeux de carte
+    
+            elif isinstance(cartes, list) and all(
+                isinstance(carte, Carte) for carte in cartes
+            ):
+                self.__cartes = cartes
+    
+            else:
+                raise ValueError("L'argument doit être None ou une liste de Cartes.")
+    
+        @property
+        def cartes(self):
+            return copy.deepcopy(self.__cartes)
+    
+        def __eq__(self, other):
+            """
+            __eq__ vérifie si deux instances de _ListeCartes sont égales, donc :
+            - de même type
+            - listes de cartes identiques (ordre inclus)
+    
+            Cette fonction renvoie un booléen.
+            """
+            if not isinstance(other, _ListeCartes):
+                return False
+            return (
+                self.__cartes == other.__cartes
+            )  # car on veut que ça return True ou False
+    
+        def __str__(self):
+            """
+            Renvoie la représentation informelle de la liste de cartes.
+            Exemple : [As de Pique, Roi de Coeur]
+            """
+            # Chaque carte s'affiche via son __str__()
+            return f"[{', '.join(str(carte) for carte in self.__cartes)}]"
+    
+        def __len__(self):
+            """
+            Renvoie le nombre de cartes dans la liste.
+            Permet l'utilisation de len(instance).
+            """
+            return len(self.__cartes)
+    
+        def melanger(self):
+            """
+            Mélange la liste des cartes.
+            """
+            random.shuffle(self.__cartes)
+    
+        def ajouter_carte(self, carte):
+            """
+            Ajoute une carte à la fin de la liste.
+    
+            Lève une erreur si ce n'est pas une instance de Carte.
+            """
+            if not isinstance(carte, Carte):
+                raise TypeError("L'objet ajouté doit être une instance de Carte.")
+            self.__cartes.append(carte)
+    
+        def retirer_carte(self, indice=-1):
+            """
+            Retire et renvoie la carte à l'indice donné (par défaut la dernière carte).
+    
+            Lève une erreur si la liste est vide ou si l'indice est invalide.
+            """
+            if len(self.__cartes) == 0:
+                raise IndexError(
+                    "Il est impossible de retirer une carte car la liste est vide."
+                )
+    
+            if indice < -len(self.__cartes) or indice >= len(self.__cartes):
+                raise IndexError("Indice invalide.")
+    
+            carte_retiree = self.__cartes[indice]
+            del self.__cartes[indice]
+            return carte_retiree
 
 
 ## __LISTES_CARTES selon CHATGPT
