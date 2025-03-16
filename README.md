@@ -463,6 +463,80 @@ class _ListeCartes:
             return mains 
 
 
+# test class reserve ( bcp de chat) 
+
+from reserve import Reserve
+from carte import Carte
+
+
+def test_distribution_correcte():
+    print("Test : distribution correcte (3 joueurs, 15 cartes chacun)")
+    reserve = Reserve()
+
+    # Ajout de 45 cartes
+    cartes = []
+    for i in range(45):
+        valeur = Carte.VALEURS[i % len(Carte.VALEURS)]
+        couleur = Carte.COULEURS[i % len(Carte.COULEURS)]
+        cartes.append(Carte(valeur, couleur))
+
+    reserve.ajouter_cartes(cartes)
+
+    mains = reserve.distribuer(nb_joueurs=3, indice_premier_joueur=1, nb_cartes="14/15")
+
+    assert len(mains) == 3
+    assert all(len(main) == 15 for main in mains)
+
+    print("✅ Distribution correcte : OK")
+
+
+def test_nb_joueurs_invalide():
+    print("Test : nombre de joueurs invalide")
+    reserve = Reserve()
+    try:
+        reserve.distribuer(nb_joueurs=1, indice_premier_joueur=0, nb_cartes="14/15")
+    except ValueError as e:
+        assert str(e) == "Le nombre de joueurs doit être compris entre 2 et 5."
+        print("✅ Erreur joueurs : OK")
+
+
+def test_indice_premier_joueur_invalide():
+    print("Test : indice premier joueur invalide")
+    reserve = Reserve()
+    try:
+        reserve.distribuer(nb_joueurs=3, indice_premier_joueur=3, nb_cartes="14/15")
+    except ValueError as e:
+        assert str(e) == "L'indice du premier joueur est invalide."
+        print("✅ Erreur indice : OK")
+
+
+def test_nb_cartes_invalide():
+    print("Test : nombre de cartes invalide")
+    reserve = Reserve()
+    try:
+        reserve.distribuer(nb_joueurs=3, indice_premier_joueur=0, nb_cartes="12/13")
+    except ValueError as e:
+        assert (
+            str(e) == "Le nombre de cartes à distribuer doit être '13/14' ou '14/15'."
+        )
+        print("✅ Erreur nb_cartes : OK")
+
+
+def test_pas_assez_de_cartes():
+    print("Test : pas assez de cartes dans la réserve")
+    reserve = Reserve()
+
+    # Ajoute 10 cartes seulement, donc pas assez
+    cartes = [Carte("As", "Pique") for _ in range(10)]
+    reserve.ajouter_cartes(cartes)
+
+    try:
+        reserve.distribuer(nb_joueurs=3, indice_premier_joueur=0, nb_cartes="14/15")
+    except ValueError as e:
+        assert str(e) == "Il n'y a pas assez de cartes dans la réserve."
+        print(" Erreur pas assez de cartes : OK")
+
+
 # class Defause
 
 """Implémentation de la classe Defausse."""
