@@ -180,74 +180,80 @@ DM de programmation objet
 
 # class Combinaison
 
-      class Combinaison:
+          from carte import Carte
     
-    def __init__(self, cartes):
-        if not isinstance(cartes, tuple):
-            raise TypeError("Les cartes doivent être un tuple.")
-        self.__cartes = cartes
-
-        if len(cartes) < 3:
-            raise ValueError("Une combinaison doit contenir au moins 3 cartes.")
-
-    def __eq__(self, autre):
-        if isinstance(autre, Combinaison):
-            if not self.__cartes and not autre.__cartes:
-                return True
-            if len(self.__cartes) == len(autre.__cartes):
-                return set(self.__cartes) == set(autre.__cartes)
-        return False
-
-    def __str__(self):
-        return ", ".join(str(carte) for carte in self.__cartes)
-
-    def __len__(self):
-        return len(self.__cartes)
-
-    def est_brelan(self):
-        if len(self.__cartes) == 3:
-            valeurs = [carte.valeur for carte in self.__cartes]
-            couleurs = [carte.couleur for carte in self.__cartes]
-            return len(set(valeurs)) == 1 and len(set(couleurs)) == 3
-        return False
-
-    def est_carre(self):
-        if len(self.cartes) == 4:
-            valeurs = [carte.valeur for carte in self.__cartes]
-            couleurs = [carte.couleur for carte in self.__cartes]
-            return len(set(valeurs)) == 1 and len(set(couleurs)) == 4
-        return False
-
-    def est_sequence(self):
-        if len(self.__cartes) >= 3:
-            couleurs = [carte.couleur for carte in self.__cartes]
-            valeurs = sorted([self.__valeurs.index(carte.valeur) for carte in self.__cartes])
-
-            if len(set(couleurs)) == 1 and all(valeurs[i] == valeurs[i-1] + 1 for i in range(1, len(valeurs))):
-                return True
-            if valeurs == [0, 1, 2]:
-                return True
-        return False
-
-    def est_valide(self):
-        return self.est_brelan() or self.est_carre() or self.est_sequence()
-
-    def calcule_nombre_points(self):
-        if not self.est_valide():
-            raise ValueError("La combinaison n'est pas valide.")
-
-        points = 0
-        for carte in self.__cartes:
-            if carte.valeur in ['Valet', 'Dame', 'Roi']:
-                points += 10
-            elif carte.valeur == 'As':
-                if self.est_sequence():
-                    points += 1
+    class Combinaison:
+        """
+        
+    
+        """
+        def __init__(self, cartes):
+            if not isinstance(cartes, tuple):
+                raise TypeError("Les cartes doivent être un tuple.")
+            self.__cartes = cartes
+    
+            if len(cartes) < 3:
+                raise ValueError("Une combinaison doit contenir au moins 3 cartes.")
+    
+        def __eq__(self, autre):
+            if isinstance(autre, Combinaison):
+                if not self.__cartes and not autre.__cartes:
+                    return True
+                if len(self.__cartes) == len(autre.__cartes):
+                    return set(self.__cartes) == set(autre.__cartes)
+            return False
+    
+        def __str__(self):
+            return ", ".join(str(carte) for carte in self.__cartes)
+    
+        def __len__(self):
+            return len(self.__cartes)
+    
+        def est_brelan(self):
+            if len(self.__cartes) == 3:
+                valeurs = [carte.valeur for carte in self.__cartes]
+                couleurs = [carte.couleur for carte in self.__cartes]
+                return len(set(valeurs)) == 1 and len(set(couleurs)) == 3
+            return False
+    
+        def est_carre(self):
+            if len(self.__cartes) == 4:
+                valeurs = [carte.valeur for carte in self.__cartes]
+                couleurs = [carte.couleur for carte in self.__cartes]
+                return len(set(valeurs)) == 1 and len(set(couleurs)) == 4
+            return False
+    
+        def est_sequence(self):
+            if len(self.__cartes) >= 3:
+                couleurs = [carte.couleur for carte in self.__cartes]
+                valeurs = sorted([Carte.VALEURS.index(carte.valeur) for carte in self.__cartes])
+    
+                if len(set(couleurs)) == 1 and all(valeurs[i] == valeurs[i-1] + 1 for i in range(1, len(valeurs))):
+                    return True
+                if valeurs == [0, 1, 2]:
+                    return True
+            return False
+    
+    
+        def est_valide(self):
+            return self.est_brelan() or self.est_carre() or self.est_sequence()
+    
+        def calcule_nombre_points(self):
+            if not self.est_valide():
+                raise ValueError("La combinaison n'est pas valide.")
+    
+            points = 0
+            for carte in self.__cartes:
+                if carte.valeur in ['Valet', 'Dame', 'Roi']:
+                    points += 10
+                elif carte.valeur == 'As':
+                    if self.est_sequence():
+                        points += 1
+                    else:
+                        points += 11
                 else:
-                    points += 11
-            else:
-                points += int(carte.valeur)
-        return points
+                    points += int(carte.valeur)
+            return points
 
 
 # test classe combinaison 
