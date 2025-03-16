@@ -640,82 +640,82 @@ DM de programmation objet
 
 # class Defause
 
-"""Implémentation de la classe Defausse."""
-
-
-    class Defausse(_ListeCartes):
-        """La classe Defausse permet de modéliser la défausse, c'est-à-dire la liste des cartes jetées"""
-    
-        def __init__(self):
-            """Cette fonction permet d'initialiser la defausse"""
-            super().__init__()
-    
-        def vider(self, reserve):
-            """Cette fonction permet de vider la défausse et de l'ajouter à la fin de la résèrve
-            après l'avoir mélangée.
-            Ainsi,"""
-    
-            if not isinstance(reserve, Reserve):
-                raise ValueError("La reserve n'est pas valide car ce n'est pas une Reserve")
-            self.melanger()  # On veut mélanger donc on réutilise la fonction mélanger
-    
-            for _ in range(len(self.cartes)):
-                reserve.ajouter_carte(self.retirer_carte(0))
+    """Implémentation de la classe Defausse."""
     
     
-    # test class Defausse
+        class Defausse(_ListeCartes):
+            """La classe Defausse permet de modéliser la défausse, c'est-à-dire la liste des cartes jetées"""
+        
+            def __init__(self):
+                """Cette fonction permet d'initialiser la defausse"""
+                super().__init__()
+        
+            def vider(self, reserve):
+                """Cette fonction permet de vider la défausse et de l'ajouter à la fin de la résèrve
+                après l'avoir mélangée.
+                Ainsi,"""
+        
+                if not isinstance(reserve, Reserve):
+                    raise ValueError("La reserve n'est pas valide car ce n'est pas une Reserve")
+                self.melanger()  # On veut mélanger donc on réutilise la fonction mélanger
+        
+                for _ in range(len(self.cartes)):
+                    reserve.ajouter_carte(self.retirer_carte(0))
+        
+        
+        # test class Defausse
+        
+        """Implémentation des tests pour la classe Defausse."""
     
-    """Implémentation des tests pour la classe Defausse."""
-
-import pytest
-from carte import Carte
-from defausse import Defausse
-from collections import Counter
-from reserve import Reserve
-
-
-@pytest.mark.parametrize(
-    "param, resultat_voulu",
-    [
-        ([], []),
-        ([Carte("Dame", "Trêfle"), Carte("Dame", "Trêfle")]),
-        (
-            [Carte("Dame", "Trêfle"), Carte("Roi", "Trêfle")],
-            [Carte("Dame", "Trêfle"), Carte("Roi", "Trêfle")],
-        ),
-    ],
-)
-def test_defausse_init(param, resultat_voulu):
-    """Teste que vider() lève une erreur si le paramètre n'est pas une Reserve."""
-    defausse = Defausse(param)
-    assert defausse._Listecarte == resultat_voulu
-
-
-@pytest.mark.parametrize(
-    "defausse_init, reserve_init, resultat_union_attendu",
-    [
-        ([], [], []),
-        ([Carte("As", "Pique")], [], [Carte("As", "Pique")]),
-        ([], [Carte("As", "Pique")], [Carte("As", "Pique")]),
-        (
-            [Carte("As", "Pique")],
-            [Carte("7", "Coeur")],
-            [Carte("As", "Pique"), Carte("7", "Coeur")],
-        ),
-        (
-            [Carte("5", "Trèfle")],
-            [Carte("2", "Coeur")],
-            [Carte("5", "Trèfle"), Carte("2", "Coeur")],
-        ),
-    ],
-)
-def test_defausse_vider(defausse_init, reserve_init, resultat_union_voulu):
-    defausse = Defausse(defausse_init)
-    reserve = Reserve(reserve_init)
-    defausse.vider(reserve)
-    assert len(defausse == 0)
-    nouvelle_reserve = reserve._ListeCartes__cartes
-    assert Counter(nouvelle_reserve) == Counter(resultat_union_voulu)
+    import pytest
+    from carte import Carte
+    from defausse import Defausse
+    from collections import Counter
+    from reserve import Reserve
+    
+    
+    @pytest.mark.parametrize(
+        "param, resultat_voulu",
+        [
+            ([], []),
+            ([Carte("Dame", "Trêfle"), Carte("Dame", "Trêfle")]),
+            (
+                [Carte("Dame", "Trêfle"), Carte("Roi", "Trêfle")],
+                [Carte("Dame", "Trêfle"), Carte("Roi", "Trêfle")],
+            ),
+        ],
+    )
+    def test_defausse_init(param, resultat_voulu):
+        """Teste que vider() lève une erreur si le paramètre n'est pas une Reserve."""
+        defausse = Defausse(param)
+        assert defausse._Listecarte == resultat_voulu
+    
+    
+    @pytest.mark.parametrize(
+        "defausse_init, reserve_init, resultat_union_attendu",
+        [
+            ([], [], []),
+            ([Carte("As", "Pique")], [], [Carte("As", "Pique")]),
+            ([], [Carte("As", "Pique")], [Carte("As", "Pique")]),
+            (
+                [Carte("As", "Pique")],
+                [Carte("7", "Coeur")],
+                [Carte("As", "Pique"), Carte("7", "Coeur")],
+            ),
+            (
+                [Carte("5", "Trèfle")],
+                [Carte("2", "Coeur")],
+                [Carte("5", "Trèfle"), Carte("2", "Coeur")],
+            ),
+        ],
+    )
+    def test_defausse_vider(defausse_init, reserve_init, resultat_union_voulu):
+        defausse = Defausse(defausse_init)
+        reserve = Reserve(reserve_init)
+        defausse.vider(reserve)
+        assert len(defausse == 0)
+        nouvelle_reserve = reserve._ListeCartes__cartes
+        assert Counter(nouvelle_reserve) == Counter(resultat_union_voulu)
 
 # class Main
 
