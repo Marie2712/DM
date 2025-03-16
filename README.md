@@ -606,15 +606,68 @@ def test_defausse_init(param, resultat_voulu):
 # class Main
 
       class Main:
-
         def __init__(self):
-           pass
+            super().__init__()  # on utilise super() pour accéder à la classe mère
+    
+        def __eq__(self, autre):
+            """
+            Vérifie l'égalité de la main avec une autre main.
+            """
+            if not isinstance(autre, Main):
+                return False
+            return sorted(self.cartes) == sorted(autre.cartes)
+    
+        def piocher(self, reserve):
+            """
+            Pioche la première carte de la réserve et l'ajoute à la main.
+            """
+            if len(reserve) == 0:
+                raise ValueError("La réserve est vide.")
+            carte = reserve.retirer_carte(0)
+            self.ajouter_carte(carte)
+    
+        def jeter(self, indice, defausse):
+            """
+            Jette une carte de la main dans la défausse.
+            """
+            if indice < 0 or indice >= len(self.cartes):
+                raise IndexError("Indice invalide.")
+            carte = self.retirer_carte(indice)
+            defausse.append(carte)
+    
+        def poser(self, combinaisons):
+            """
+            Pose une ou plusieurs combinaisons de cartes (brelans, carrés, séquences).
+            Vérifie que les combinaisons sont valides.
+            """
+            if not combinaisons:
+                raise ValueError("Aucune combinaison à poser.")
+    
+            indices = set()
+            for combinaison in combinaisons:
+                for indice in combinaison:
+                    if indice < 0 or indice >= len(self.cartes):
+                        raise IndexError(f"Indice {indice} invalide.")
+                    if indice in indices:
+                        raise ValueError(f"Indice {indice} déjà utilisé.")
+                    indices.add(indice)
+    
+            total_points = 0
+            sequence_presente = False
+            for combinaison in combinaisons:
+                points_combinaison, est_sequence = self.valider_combinaison(combinaison)
+                total_points += points_combinaison
+                if est_sequence:
+                    sequence_presente = True
+    
+            if not sequence_presente:
+                raise ValueError("La première pose doit contenir au moins une séquence.")
+            if total_points < 51:
+                raise ValueError("La somme des points doit être d'au moins 51 pour la première pose.")
+    
+            for combinaison in combinaisons:
+                for indice in sorted(combinaison, reverse=True):
+                    self.retirer_carte(indice)
+    
+            return combinaisons, total_points
 
-         def piocher():
-           pass
-
-         def jeter():
-           pass
-
-         def poser():
-           pass
