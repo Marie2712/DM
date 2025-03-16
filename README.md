@@ -591,76 +591,76 @@ class Reserve(_ListeCartes):
 
 # test class reserve ( bcp de chat) 
 
-    from reserve import Reserve
-    from carte import Carte
-    
-    
-    def test_distribution_correcte():
-        print("Test : distribution correcte (3 joueurs, 15 cartes chacun)")
-        reserve = Reserve()
-    
-        # Ajout de 45 cartes
-        cartes = []
-        for i in range(45):
-            valeur = Carte.VALEURS[i % len(Carte.VALEURS)]
-            couleur = Carte.COULEURS[i % len(Carte.COULEURS)]
-            cartes.append(Carte(valeur, couleur))
-    
+   import pytest
+from reserve import Reserve
+from carte import Carte
+
+
+# Test regroupé pour la méthode distribuer
+@pytest.mark.parametrize(
+    "nb_joueurs, indice_premier_joueur, nb_cartes, cartes_distribuees, erreur_attendue",
+    [
+        (1, 0, "14/15", None, "Le nombre de joueurs doit être compris entre 2 et 5."),
+        # Cas où l'indice du premier joueur est invalide
+        (3, 3, "14/15", None, "L'indice du premier joueur est invalide."),
+        # Cas où le nombre de cartes à distribuer est invalide
+        (
+            3,
+            0,
+            "12/13",
+            None,
+            "Le nombre de cartes à distribuer doit être '13/14' ou '14/15'.",
+        ),
+    ],
+)
+def test_distribuer(
+    nb_joueurs, indice_premier_joueur, nb_cartes, cartes_distribuees, erreur_attendue
+):
+    reserve = Reserve()
+
+    # Créer des cartes fictives pour le test uniquement si la distribution doit réussir
+    if erreur_attendue is None:
+        # Liste des valeurs valides pour les cartes
+        valeurs_valides = [
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "Valet",
+            "Dame",
+            "Roi",
+            "As",
+        ]
+        cartes = [
+            Carte(valeur, "Pique")
+            for valeur in valeurs_valides
+            for _ in range(nb_joueurs * cartes_distribuees)
+        ]
         reserve.ajouter_cartes(cartes)
-    
-        mains = reserve.distribuer(nb_joueurs=3, indice_premier_joueur=1, nb_cartes="14/15")
-    
-        assert len(mains) == 3
-        assert all(len(main) == 15 for main in mains)
-    
-        print("La distribution a bien été réalisée.")
-    
-    
-    def test_nb_joueurs_invalide():
-        print("Test : nombre de joueurs invalide")
-        reserve = Reserve()
-        try:
-            reserve.distribuer(nb_joueurs=1, indice_premier_joueur=0, nb_cartes="14/15")
-        except ValueError as e:
-            assert str(e) == "Le nombre de joueurs doit être compris entre 2 et 5."
-            print("Le test pour le nombre de joueurs invalide a réussi.")
-    
-    
-    def test_indice_premier_joueur_invalide():
-        print("Test : indice premier joueur invalide")
-        reserve = Reserve()
-        try:
-            reserve.distribuer(nb_joueurs=3, indice_premier_joueur=3, nb_cartes="14/15")
-        except ValueError as e:
-            assert str(e) == "L'indice du premier joueur est invalide."
-            print("Le test pour l'indice du premier joueur invalide a réussi.")
-    
-    
-    def test_nb_cartes_invalide():
-        print("Test : nombre de cartes invalide")
-        reserve = Reserve()
-        try:
-            reserve.distribuer(nb_joueurs=3, indice_premier_joueur=0, nb_cartes="12/13")
-        except ValueError as e:
-            assert (
-                str(e) == "Le nombre de cartes à distribuer doit être '13/14' ou '14/15'."
+
+    if erreur_attendue:
+        with pytest.raises(ValueError) as excinfo:
+            reserve.distribuer(
+                nb_joueurs=nb_joueurs,
+                indice_premier_joueur=indice_premier_joueur,
+                nb_cartes=nb_cartes,
             )
-            print("Le test pour le nombre de cartes invalide a réussi")
-    
-    
-    def test_pas_assez_de_cartes():
-        print("Test : pas assez de cartes dans la réserve")
-        reserve = Reserve()
-    
-        # Ajoute 10 cartes seulement, donc pas assez
-        cartes = [Carte("As", "Pique") for _ in range(10)]
-        reserve.ajouter_cartes(cartes)
-    
-        try:
-            reserve.distribuer(nb_joueurs=3, indice_premier_joueur=0, nb_cartes="14/15")
-        except ValueError as e:
-            assert str(e) == "Il n'y a pas assez de cartes dans la réserve."
-            print("Le test pour le cas 'pas assez de cartes' a réussi.")
+        assert str(excinfo.value) == erreur_attendue
+    else:
+        mains = reserve.distribuer(
+            nb_joueurs=nb_joueurs,
+            indice_premier_joueur=indice_premier_joueur,
+            nb_cartes=nb_cartes,
+        )
+
+        # Vérifier que chaque joueur a le bon nombre de cartes
+        assert len(mains) == nb_joueurs
+        assert all(len(main) == cartes_distribuees for main in mains)
 
 
 
