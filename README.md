@@ -404,6 +404,27 @@ class Defausse(_ListeCartes):
             reserve.ajouter_carte(self.retirer_carte(0))
 
 
+# test class Defausse
+
+"""Implémentation des tests pour la classe Defausse."""
+
+@pytest.mark.parametrize(
+    "param, resultat_voulu",
+    [
+        ([], []),
+        ([Carte("Dame", "Trêfle"), Carte("Dame", "Trêfle")]),
+        (
+            [Carte("Dame", "Trêfle"), Carte("Dame", "Trêfle")],
+            [Carte("Dame", "Trêfle"), Carte("Dame", "Trêfle")],
+        ),
+    ],
+)
+def test_defausse_init(param, resultat_voulu):
+    """Teste que vider() lève une erreur si le paramètre n'est pas une Reserve."""
+    defausse = Defausse(param)
+    assert Defausse._Listecarte == resultat_voulu
+
+
 # class Main
 
       class Main:
