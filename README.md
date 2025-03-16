@@ -8,10 +8,10 @@ DM de programmation objet
 """Implémentation de la classe Carte."""
 
 
-class Carte:
-    """Cette classe permet d'afficher de manière particulière les cartes du jeu
-    Parameters
-    ----------
+    class Carte:
+        """Cette classe permet d'afficher de manière particulière les cartes du jeu
+        Parameters
+        ----------
 
     Valeur : __valeur
     Toutes les valeurs que les cartes peuvent prendre.
