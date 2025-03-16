@@ -5,30 +5,48 @@ DM de programmation objet
 # class Carte
 
 
-    class Carte:
-        """Cette classe permet d'afficher de manière particulière les cartes du jeu 
-        Parameters 
-        ----------
-    
-        Valeur : __valeur
-        Toutes les valeurs que les cartes peuvent prendre.
-    
-        Couleur : __couleur
-        Tous les symboles que peuvent prendre les cartes.
+"""Implémentation de la classe Carte."""
 
-        """
-        __VALEURS = ('As', '2', '3', '4','5', '6', '7', '8', '9', '10', 'Valet', 'Dame', 'Roi')
-        __COULEURS = ('Pique', 'Coeur', 'Carreau', 'Trêfle')
-      
-        def __init__(self, valeur, couleur):
-            self.__couleur = couleur 
-            self.__valeur = valeur 
-            if not isinstance(valeur, __VALEURS):
-                raise TypeError("La valeur doit être une chaine de caractères.")
-            if not isinstance(couleur, __COULEURS):
-                raise TypeError("La couleur doit être une chaine de caractères.")
 
-        @property
+class Carte:
+    """Cette classe permet d'afficher de manière particulière les cartes du jeu
+    Parameters
+    ----------
+
+    Valeur : __valeur
+    Toutes les valeurs que les cartes peuvent prendre.
+
+    Couleur : __couleur
+    Tous les symboles que peuvent prendre les cartes.
+
+    """
+
+    __VALEURS = (
+        "As",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "Valet",
+        "Dame",
+        "Roi",
+    )
+    __COULEURS = ("Pique", "Coeur", "Carreau", "Trêfle")
+
+    def __init__(self, valeur, couleur):
+        self.__couleur = couleur
+        self.__valeur = valeur
+        if valeur not in self.__VALEURS:
+            raise ValueError("La valeur doit être une des valeurs valides.")
+        if couleur not in self.__COULEURS:
+            raise ValueError("La couleur doit être une des couleurs valides.")
+
+    @property
     def valeur(self):
         return self.__valeur
 
@@ -39,13 +57,12 @@ DM de programmation objet
     @classmethod
     def VALEURS(cls):
         """Retourne les valeurs possibles des cartes."""
-        return cls.VALEURS
+        return cls.__VALEURS
 
     @classmethod
     def COULEURS(cls):
         """Retourne les couleurs possibles des cartes."""
-        return cls.COULEURS
-  
+        return cls.__COULEURS
         def __str__(self):
               return f"{self.valeur} de {self.couleur}"
 
