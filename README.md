@@ -87,93 +87,93 @@ DM de programmation objet
 
 
 
- """Implémentation des tests pour la classe Carte."""
-
-from carte import Carte
-import pytest
-
-
-@pytest.mark.parametrize(
-    "valeur, couleur, message_erreur",
-    [
-        # Nous allons traiter tous les cas ! :
-        # 1er cas : la valeur n'est pas une chaîne de caractères
-        (345, "Coeur", "La valeur doit être une chaine de caractères."),
-        ({"valeur": "Vert"}, "Trêfle", "La valeur doit être une chaine de caractères."),
-        # 2ème cas : la couleur n'est pas une chaîne de caractères
-        ("As", 13579, "La couleur doit être une chaine de caractères."),
-        ("As", ["Coeur"], "La couleur doit être une chaine de caractères."),
-        # 3ème cas : la valeur n'est pas valide
-        ("10", "Bleu", "La couleur doit être une des couleurs valides."),
-        # 4ème : la couleur n'est pas valide
-        ("As", "Rose", "La couleur doit être une des couleurs valides."),
-    ],
-)
-def test_carte_init(valeur, couleur, message_erreur):
-    with pytest.raises((TypeError, ValueError), match=message_erreur):
-        Carte(valeur, couleur)
-
-
-@pytest.mark.parametrize(
-    "valeur, couleur, str_voulu",
-    [
-        ("As", "Pique", "As de Pique"),
-        ("10", "Coeur", "10 de Coeur"),
-        ("Valet", "Carreau", "Valet de Carreau"),
-        ("Roi", "Trêfle", "Roi de Trêfle"),
-        ("Dame", "Coeur", "Dame de Coeur"),
-    ],
-)
-def test_str(valeur, couleur, str_voulu):
-    carte = Carte(valeur, couleur)
-    assert str(carte) == str_voulu
-
-
-@pytest.mark.parametrize(
-    "valeur, couleur, repr_voulu",
-    [
-        ("As", "Pique", "Carte('As', 'Pique')"),
-        ("10", "Coeur", "Carte('10', 'Coeur')"),
-        ("Valet", "Carreau", "Carte('Valet', 'Carreau')"),
-        ("Roi", "Trêfle", "Carte('Roi', 'Trêfle')"),
-        ("Dame", "Coeur", "Carte('Dame', 'Coeur')"),
-    ],
-)
-def test_repr(valeur, couleur, repr_voulu):
-    carte = Carte(valeur, couleur)
-    assert repr(carte) == repr_voulu
-
-
-@pytest.mark.parametrize(
-    "valeur1, couleur1, valeur2, couleur2, resultat_voulu",
-    [
-        ("Roi", "Pique", "Roi", "Pique", True),
-        ("10", "Coeur", "10", "Coeur", True),
-        ("Valet", "Carreau", "Dame", "Carreau", False),
-        ("Roi", "Trêfle", "Roi", "Coeur", False),
-        ("Dame", "Coeur", "Dame", "Coeur", True),
-    ],
-)
-def test_eq(valeur1, couleur1, valeur2, couleur2, resultat_voulu):
-    carte1 = Carte(valeur1, couleur1)
-    carte2 = Carte(valeur2, couleur2)
-    assert (carte1 == carte2) == resultat_voulu
-
-
-@pytest.mark.parametrize(
-    "valeur1, couleur1, valeur2, couleur2, meme_hash",
-    [
-        ("As", "Pique", "As", "Pique", True),
-        ("10", "Coeur", "10", "Coeur", True),
-        ("Valet", "Carreau", "Dame", "Carreau", False),
-        ("Roi", "Trêfle", "Roi", "Coeur", False),
-        ("Dame", "Coeur", "Dame", "Coeur", True),
-    ],
-)
-def test_hash(valeur1, couleur1, valeur2, couleur2, meme_hash):
-    carte1 = Carte(valeur1, couleur1)
-    carte2 = Carte(valeur2, couleur2)
-    assert (hash(carte1) == hash(carte2)) == meme_hash
+     """Implémentation des tests pour la classe Carte."""
+    
+    from carte import Carte
+    import pytest
+    
+    
+    @pytest.mark.parametrize(
+        "valeur, couleur, message_erreur",
+        [
+            # Nous allons traiter tous les cas ! :
+            # 1er cas : la valeur n'est pas une chaîne de caractères
+            (345, "Coeur", "La valeur doit être une chaine de caractères."),
+            ({"valeur": "Vert"}, "Trêfle", "La valeur doit être une chaine de caractères."),
+            # 2ème cas : la couleur n'est pas une chaîne de caractères
+            ("As", 13579, "La couleur doit être une chaine de caractères."),
+            ("As", ["Coeur"], "La couleur doit être une chaine de caractères."),
+            # 3ème cas : la valeur n'est pas valide
+            ("10", "Bleu", "La couleur doit être une des couleurs valides."),
+            # 4ème : la couleur n'est pas valide
+            ("As", "Rose", "La couleur doit être une des couleurs valides."),
+        ],
+    )
+    def test_carte_init(valeur, couleur, message_erreur):
+        with pytest.raises((TypeError, ValueError), match=message_erreur):
+            Carte(valeur, couleur)
+    
+    
+    @pytest.mark.parametrize(
+        "valeur, couleur, str_voulu",
+        [
+            ("As", "Pique", "As de Pique"),
+            ("10", "Coeur", "10 de Coeur"),
+            ("Valet", "Carreau", "Valet de Carreau"),
+            ("Roi", "Trêfle", "Roi de Trêfle"),
+            ("Dame", "Coeur", "Dame de Coeur"),
+        ],
+    )
+    def test_str(valeur, couleur, str_voulu):
+        carte = Carte(valeur, couleur)
+        assert str(carte) == str_voulu
+    
+    
+    @pytest.mark.parametrize(
+        "valeur, couleur, repr_voulu",
+        [
+            ("As", "Pique", "Carte('As', 'Pique')"),
+            ("10", "Coeur", "Carte('10', 'Coeur')"),
+            ("Valet", "Carreau", "Carte('Valet', 'Carreau')"),
+            ("Roi", "Trêfle", "Carte('Roi', 'Trêfle')"),
+            ("Dame", "Coeur", "Carte('Dame', 'Coeur')"),
+        ],
+    )
+    def test_repr(valeur, couleur, repr_voulu):
+        carte = Carte(valeur, couleur)
+        assert repr(carte) == repr_voulu
+    
+    
+    @pytest.mark.parametrize(
+        "valeur1, couleur1, valeur2, couleur2, resultat_voulu",
+        [
+            ("Roi", "Pique", "Roi", "Pique", True),
+            ("10", "Coeur", "10", "Coeur", True),
+            ("Valet", "Carreau", "Dame", "Carreau", False),
+            ("Roi", "Trêfle", "Roi", "Coeur", False),
+            ("Dame", "Coeur", "Dame", "Coeur", True),
+        ],
+    )
+    def test_eq(valeur1, couleur1, valeur2, couleur2, resultat_voulu):
+        carte1 = Carte(valeur1, couleur1)
+        carte2 = Carte(valeur2, couleur2)
+        assert (carte1 == carte2) == resultat_voulu
+    
+    
+    @pytest.mark.parametrize(
+        "valeur1, couleur1, valeur2, couleur2, meme_hash",
+        [
+            ("As", "Pique", "As", "Pique", True),
+            ("10", "Coeur", "10", "Coeur", True),
+            ("Valet", "Carreau", "Dame", "Carreau", False),
+            ("Roi", "Trêfle", "Roi", "Coeur", False),
+            ("Dame", "Coeur", "Dame", "Coeur", True),
+        ],
+    )
+    def test_hash(valeur1, couleur1, valeur2, couleur2, meme_hash):
+        carte1 = Carte(valeur1, couleur1)
+        carte2 = Carte(valeur2, couleur2)
+        assert (hash(carte1) == hash(carte2)) == meme_hash
 
     
 
@@ -181,75 +181,47 @@ def test_hash(valeur1, couleur1, valeur2, couleur2, meme_hash):
 # class Combinaison
 
       class Combinaison:
-
-          def __init__(self, cartes:tuple[Carte]):
-            self.carte = cartes
-            if isinstance(cartes, tuple):
-                 raise TypeError("Les cartes doivent être une liste.")
-            self.combinaisons = ['brelan', 'carre', 'sequence']
-            if cartes not in self.combinaisons:
-                  raise ValueError ("ça n'est pas une combinaison")
-
-          def __eq__(self):
-           pass
-
-          def est_brelan():
-           pass
-
-          def est_carre():
-           pass
-
-          def est_sequence():
-           pass
-
-          def est_valide():
-           pass
-
-          def calcule_nombre_points():
-           pass
-
-## class combinaison selon chat 
-
-        def __init__(self, cartes):
+    
+    def __init__(self, cartes):
         if not isinstance(cartes, tuple):
             raise TypeError("Les cartes doivent être un tuple.")
-        self.cartes = cartes
+        self.__cartes = cartes
 
         if len(cartes) < 3:
             raise ValueError("Une combinaison doit contenir au moins 3 cartes.")
 
     def __eq__(self, autre):
         if isinstance(autre, Combinaison):
-            if not self.cartes and not autre.cartes:
+            if not self.__cartes and not autre.__cartes:
                 return True
-            if len(self.cartes) == len(autre.cartes):
-                return set(self.cartes) == set(autre.cartes)
+            if len(self.__cartes) == len(autre.__cartes):
+                return set(self.__cartes) == set(autre.__cartes)
         return False
 
     def __str__(self):
-        return ", ".join(str(carte) for carte in self.cartes)
+        return ", ".join(str(carte) for carte in self.__cartes)
 
     def __len__(self):
-        return len(self.cartes)
+        return len(self.__cartes)
 
     def est_brelan(self):
-        if len(self.cartes) == 3:
-            valeurs = [carte.valeur for carte in self.cartes]
-            couleurs = [carte.couleur for carte in self.cartes]
+        if len(self.__cartes) == 3:
+            valeurs = [carte.valeur for carte in self.__cartes]
+            couleurs = [carte.couleur for carte in self.__cartes]
             return len(set(valeurs)) == 1 and len(set(couleurs)) == 3
         return False
 
     def est_carre(self):
         if len(self.cartes) == 4:
-            valeurs = [carte.valeur for carte in self.cartes]
-            couleurs = [carte.couleur for carte in self.cartes]
+            valeurs = [carte.valeur for carte in self.__cartes]
+            couleurs = [carte.couleur for carte in self.__cartes]
             return len(set(valeurs)) == 1 and len(set(couleurs)) == 4
         return False
 
     def est_sequence(self):
-        if len(self.cartes) >= 3:
-            couleurs = [carte.couleur for carte in self.cartes]
-            valeurs = sorted([self.valeurs.index(carte.valeur) for carte in self.cartes])
+        if len(self.__cartes) >= 3:
+            couleurs = [carte.couleur for carte in self.__cartes]
+            valeurs = sorted([self.__valeurs.index(carte.valeur) for carte in self.__cartes])
 
             if len(set(couleurs)) == 1 and all(valeurs[i] == valeurs[i-1] + 1 for i in range(1, len(valeurs))):
                 return True
@@ -265,7 +237,7 @@ def test_hash(valeur1, couleur1, valeur2, couleur2, meme_hash):
             raise ValueError("La combinaison n'est pas valide.")
 
         points = 0
-        for carte in self.cartes:
+        for carte in self.__cartes:
             if carte.valeur in ['Valet', 'Dame', 'Roi']:
                 points += 10
             elif carte.valeur == 'As':
@@ -276,6 +248,7 @@ def test_hash(valeur1, couleur1, valeur2, couleur2, meme_hash):
             else:
                 points += int(carte.valeur)
         return points
+
 
 # test classe combinaison 
 
