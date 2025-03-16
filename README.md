@@ -63,11 +63,18 @@ DM de programmation objet
   jade : on est pas obligé de garder ca 
 
   
-    import re 
+"""Implémentation des tests pour la classe Carte."""
+
+import re
 
 
-    from class 1 import Carte 
-    import pytest
+from carte import Carte
+import pytest
+
+
+import pytest
+from carte import Carte
+
 
 @pytest.mark.parametrize(
     "valeur, couleur, message_erreur",
@@ -88,6 +95,73 @@ DM de programmation objet
 def test_carte_init(valeur, couleur, message_erreur):
     with pytest.raises((TypeError, ValueError), match=message_erreur):
         Carte(valeur, couleur)
+
+
+@pytest.mark.parametrize(
+    "valeur, couleur, str_voulu",
+    [
+        ("As", "Pique", "As de Pique"),
+        ("10", "Coeur", "10 de Coeur"),
+        ("Valet", "Carreau", "Valet de Carreau"),
+        ("Roi", "Trêfle", "Roi de Trêfle"),
+        ("Dame", "Coeur", "Dame de Coeur"),
+    ],
+)
+def test_str(valeur, couleur, str_voulu):
+    carte = Carte(valeur, couleur)
+    assert str(carte) == str_voulu
+
+
+@pytest.mark.parametrize(
+    "valeur, couleur, repr_voulu",
+    [
+        ("As", "Pique", "Carte('As', 'Pique')"),
+        ("10", "Coeur", "Carte('10', 'Coeur')"),
+        ("Valet", "Carreau", "Carte('Valet', 'Carreau')"),
+        ("Roi", "Trêfle", "Carte('Roi', 'Trêfle')"),
+        ("Dame", "Coeur", "Carte('Dame', 'Coeur')"),
+    ],
+)
+def test_repr(valeur, couleur, repr_voulu):
+    carte = Carte(valeur, couleur)
+    assert repr(carte) == repr_voulu
+
+
+import pytest
+
+
+@pytest.mark.parametrize(
+    "valeur1, couleur1, valeur2, couleur2, resultat_voulu",
+    [
+        ("Roi", "Pique", "Roi", "Pique", True),
+        ("10", "Coeur", "10", "Coeur", True),
+        ("Valet", "Carreau", "Dame", "Carreau", False),
+        ("Roi", "Trêfle", "Roi", "Coeur", False),
+        ("Dame", "Coeur", "Dame", "Coeur", True),
+    ],
+)
+def test_eq(valeur1, couleur1, valeur2, couleur2, resultat_voulu):
+    carte1 = Carte(valeur1, couleur1)
+    carte2 = Carte(valeur2, couleur2)
+    assert (carte1 == carte2) == resultat_voulu
+
+
+@pytest.mark.parametrize(
+    "valeur1, couleur1, valeur2, couleur2, meme_hash",
+    [
+        ("As", "Pique", "As", "Pique", True),
+        ("10", "Coeur", "10", "Coeur", True),
+        ("Valet", "Carreau", "Dame", "Carreau", False),
+        ("Roi", "Trêfle", "Roi", "Coeur", False),
+        ("Dame", "Coeur", "Dame", "Coeur", True),
+    ],
+)
+def test_hash(valeur1, couleur1, valeur2, couleur2, meme_hash):
+    carte1 = Carte(valeur1, couleur1)
+    carte2 = Carte(valeur2, couleur2)
+    assert (hash(carte1) == hash(carte2)) == meme_hash
+
+
 
     
 
