@@ -487,7 +487,7 @@ def test_distribution_correcte():
     assert len(mains) == 3
     assert all(len(main) == 15 for main in mains)
 
-    print("✅ Distribution correcte : OK")
+    print("La distribution a bien été réalisée.")
 
 
 def test_nb_joueurs_invalide():
@@ -497,7 +497,7 @@ def test_nb_joueurs_invalide():
         reserve.distribuer(nb_joueurs=1, indice_premier_joueur=0, nb_cartes="14/15")
     except ValueError as e:
         assert str(e) == "Le nombre de joueurs doit être compris entre 2 et 5."
-        print("✅ Erreur joueurs : OK")
+        print("Le test pour le nombre de joueurs invalide a réussi.")
 
 
 def test_indice_premier_joueur_invalide():
@@ -507,7 +507,7 @@ def test_indice_premier_joueur_invalide():
         reserve.distribuer(nb_joueurs=3, indice_premier_joueur=3, nb_cartes="14/15")
     except ValueError as e:
         assert str(e) == "L'indice du premier joueur est invalide."
-        print("✅ Erreur indice : OK")
+        print("Le test pour l'indice du premier joueur invalide a réussi.")
 
 
 def test_nb_cartes_invalide():
@@ -519,7 +519,7 @@ def test_nb_cartes_invalide():
         assert (
             str(e) == "Le nombre de cartes à distribuer doit être '13/14' ou '14/15'."
         )
-        print("✅ Erreur nb_cartes : OK")
+        print("Le test pour le nombre de cartes invalide a réussi")
 
 
 def test_pas_assez_de_cartes():
@@ -534,7 +534,8 @@ def test_pas_assez_de_cartes():
         reserve.distribuer(nb_joueurs=3, indice_premier_joueur=0, nb_cartes="14/15")
     except ValueError as e:
         assert str(e) == "Il n'y a pas assez de cartes dans la réserve."
-        print(" Erreur pas assez de cartes : OK")
+        print("Le test pour le cas 'pas assez de cartes' a réussi.")
+
 
 
 # class Defause
