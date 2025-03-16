@@ -277,6 +277,129 @@ def test_hash(valeur1, couleur1, valeur2, couleur2, meme_hash):
                 points += int(carte.valeur)
         return points
 
+# test classe combinaison 
+
+        import pytest
+        from carte import Carte
+        from combinaison import Combinaison 
+        
+        
+        
+        @pytest.mark.parametrize(
+            "param, erreur_attendue",
+            [
+                (tuple([Carte("As", "Coeur"), Carte("2", "Trêfle"),
+                        Carte("3", "Carreau")]), None),
+                (tuple([Carte("As", "Coeur"), Carte("2", "Trêfle")]), ValueError),
+                ([Carte("As", "Coeur"), Carte("2", "Trêfle"), Carte("3", "Carreau")],
+                 TypeError),
+                (tuple([]), ValueError),  # combinaison vide
+            ],
+        )
+        def test_combinaison_init(param, erreur_attendue):
+            if erreur_attendue:
+                with pytest.raises(erreur_attendue):
+                    Combinaison(param)
+            else:
+                assert Combinaison(param) is not None
+        
+        
+        @pytest.mark.parametrize(
+            "param1, param2, resultat_attendu",
+            [(tuple([Carte("As", "Coeur"), Carte("2", "Trêfle"),
+                     Carte("3", "Carreau")]),
+                tuple([Carte("As", "Coeur"), Carte("2", "Trêfle"),
+                       Carte("3", "Carreau")]), True),
+                (tuple([Carte("As", "Coeur"), Carte("2", "Trêfle")]),)
+                (tuple([Carte("As", "Coeur"), Carte("2", "Trêfle")]), True),
+                tuple([Carte("As", "Coeur"), Carte("2", "Trêfle")]),
+                (tuple([Carte("2", "Trêfle"), Carte("As", "Coeur")]), True),
+                (tuple([Carte("As", "Coeur")]), tuple([Carte("As", "Coeur"),
+                                                       Carte("2", "Trêfle")]), False),
+                (tuple([Carte("As", "Coeur")]), tuple([Carte("As", "Trêfle")]), False),
+                ],
+        )
+        def test_combinaison_eq(param1, param2, resultat_attendu):
+            combinaison1 = Combinaison(param1)
+            combinaison2 = Combinaison(param2)
+            assert (combinaison1 == combinaison2) == resultat_attendu
+        
+        
+        @pytest.mark.parametrize(
+            "param, resultat_attendu",
+            [
+                (tuple([Carte("As", "Coeur"), Carte("2", "Trêfle"), Carte("3", "Carreau")]),
+                 "As de coeur, 2 de Trêfle, 3 de carreau"),
+                (tuple([Carte("As", "Coeur"), Carte("As", "Trêfle"), Carte("As", "Carreau")]),
+                 "As de coeur, As de Trêfle, As de carreau"),
+            ],
+        )
+        def test_combinaison_str(param, resultat_attendu):
+            combinaison = Combinaison(param)
+            assert str(combinaison) == resultat_attendu
+        
+        
+        @pytest.mark.parametrize(
+            "param, resultat_attendu",
+            [
+                (tuple([Carte("As", "Coeur"), Carte("2", "Trêfle"), Carte("3", "Carreau")]), 3),
+                (tuple([Carte("As", "Coeur"), Carte("As", "Trêfle"), Carte("As", "Carreau"),
+                        Carte("2", "Carreau")]), 4),
+            ],
+        )
+        def test_combinaison_len(param, resultat_attendu):
+            combinaison = Combinaison(param)
+            assert len(combinaison) == resultat_attendu
+        
+        
+        @pytest.mark.parametrize(
+            "param, est_brelan, est_carre, est_sequence",
+            [
+                (tuple([Carte("As", "Coeur"), Carte("As", "Trêfle"), Carte("As", "Carreau")]),
+                 True, False, False),
+                (tuple([Carte("5", "Coeur"), Carte("5", "Trêfle"), Carte("5", "Carreau"),
+                        Carte("5", "Pique")]),
+                 False, True, False),
+                (tuple([Carte("2", "Coeur"), Carte("3", "Coeur"), Carte("4", "Coeur")]),
+                 False, False, True),
+                (tuple([Carte("As", "Coeur"), Carte("2", "Coeur"), Carte("3", "Coeur")]),
+                 False, False, True),
+                (tuple([Carte("As", "Coeur"), Carte("6", "Coeur"), Carte("7", "Coeur")]),
+                 False, False, False),
+            ],
+        )
+        def test_combinaison_validite(param, est_brelan, est_carre, est_sequence):
+            combinaison = Combinaison(param)
+            assert combinaison.est_brelan() == est_brelan
+            assert combinaison.est_carre() == est_carre
+            assert combinaison.est_sequence() == est_sequence
+        
+        
+        @pytest.mark.parametrize(
+            "param, est_valide, points_attendus",
+            [
+                (tuple([Carte("As", "Coeur"), Carte("As", "Trêfle"), Carte("As", "Carreau")]),
+                 True, 33),
+                (tuple([Carte("10", "Coeur"), Carte("10", "Trêfle"), Carte("10", "Carreau")]),
+                 True, 30),
+                (tuple([Carte("2", "Coeur"), Carte("3", "Coeur"), Carte("4", "Coeur")]),
+                 True, 9),
+                (tuple([Carte("10", "Coeur"), Carte("Valet", "Trêfle"),
+                        Carte("Roi", "Carreau")]),
+                 True, 30),
+                (tuple([Carte("As", "Coeur"), Carte("2", "Carreau"), Carte("3", "Pique")]),
+                 False, ValueError),
+            ],
+        )
+        def test_combinaison_calcul_points(param, est_valide, points_attendus):
+            combinaison = Combinaison(param)
+            if est_valide:
+                assert combinaison.calcule_nombre_points() == points_attendus
+            else:
+                with pytest.raises(ValueError):
+                    combinaison.calcule_nombre_points()
+        
+`
 
 # class _ListeCartes
 
