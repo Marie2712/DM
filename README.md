@@ -29,20 +29,20 @@ DM de programmation objet
                 raise TypeError("La couleur doit être une chaine de caractères.")
 
         @property
-        def valeur(self):
+    def valeur(self):
         return self.__valeur
 
-        @property
-        def couleur(self):
+    @property
+    def couleur(self):
         return self.__couleur
 
-        @classmethod
-        def valeurs(cls):
+    @classmethod
+    def VALEURS(cls):
         """Retourne les valeurs possibles des cartes."""
         return cls.VALEURS
 
-        @classmethod
-        def couleurs(cls):
+    @classmethod
+    def COULEURS(cls):
         """Retourne les couleurs possibles des cartes."""
         return cls.COULEURS
   
