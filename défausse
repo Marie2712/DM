@@ -1,4 +1,42 @@
 
+
+#class defaut 
+
+"""Implémentation de la classe Defausse."""
+
+from reserve import Reserve
+from base import _ListeCartes
+import random
+
+
+class Defausse(_ListeCartes):
+    """Vide la défausse en transférant toutes ses cartes dans la réserve,
+    après les avoir mélangées.
+
+    Parameters
+    ----------
+    reserve : Reserve
+             La réserve où ajouter les cartes.
+
+    """
+
+    def __init__(self, cartes):
+        """Cette fonction permet d'initialiser la défausse"""
+        super().__init__(cartes)
+
+    def vider(self, reserve):
+        """Cette fonction permet de vider la défausse et de
+        l'ajouter à la fin de la réserve
+        après l'avoir mélangée.
+        Ainsi,"""
+
+        if not isinstance(reserve, Reserve):
+            raise ValueError("La reserve n'est pas valide car ce n'est pas une Reserve")
+        random.shuffle(self.__cartes)
+
+        for i in range(len(self.__cartes)):
+            reserve.ajouter_carte(self.retirer_carte(0))
+
 # test défausse 
 
 """Implémentation des tests pour la classe Defausse."""
