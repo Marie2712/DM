@@ -811,3 +811,143 @@ def test_distribuer(
     
             return combinaisons, total_points
 
+# test main 
+
+    import pytest
+    from carte import Carte
+    from main import Main
+    from defausse import Defausse
+    from reserve import Reserve
+    
+    
+    @pytest.fixture
+    def setup_mains():
+        # Initialisation des objets nécessaires pour les tests
+        main_1 = Main()
+        main_2 = Main()
+    
+        # Simuler des cartes et les ajouter à la main
+        carte_as = Carte("As", "Coeur")
+        carte_2 = Carte("2", "Carreau")
+        carte_3 = Carte("3", "Pique")
+    
+        main_1.ajouter_carte(carte_as)
+        main_1.ajouter_carte(carte_2)
+        main_1.ajouter_carte(carte_3)
+    
+        # Créer une main similaire pour main_2
+        main_2.ajouter_carte(carte_as)
+        main_2.ajouter_carte(carte_2)
+        main_2.ajouter_carte(carte_3)
+    
+        # Initialisation de la réserve et de la défausse pour les tests piocher et jeter
+        reserve = Reserve()
+        defausse = Defausse()
+    
+        return main_1, main_2, reserve, defausse
+    
+    
+    @pytest.mark.parametrize(
+        "main1, main2, attendu",
+        [
+            (tuple([Carte("As", "Coeur"), Carte("2", "Carreau"), Carte("3", "Pique")]),
+             tuple([Carte("As", "Coeur"), Carte("2", "Carreau"), Carte("3", "Pique")]),
+             True),
+            (tuple([Carte("As", "Coeur"), Carte("2", "Carreau")]),
+             tuple([Carte("As", "Coeur"), Carte("2", "Carreau"), Carte("3", "Pique")]),
+             False),
+            (tuple([Carte("As", "Coeur"), Carte("2", "Carreau")]),
+             tuple([Carte("2", "Carreau"), Carte("As", "Coeur")]),
+             True),
+        ],
+    )
+    def test_eq_mains(main1, main2, attendu):
+        """Test de la méthode __eq__ pour vérifier l'égalité entre deux mains."""
+        main1_obj = Main()
+        main2_obj = Main()
+    
+        for carte in main1:
+            main1_obj.ajouter_carte(carte)
+    
+        for carte in main2:
+            main2_obj.ajouter_carte(carte)
+    
+        assert (main1_obj == main2_obj) == attendu
+    
+    
+    @pytest.mark.parametrize(
+        "reserve_cartes, main_cartes, attendu",
+        [
+            (tuple([Carte("As", "Trêfle")]), tuple([Carte("As", "Coeur"), Carte("2", "Carreau"), Carte("3", "Pique")]), True),
+            (tuple([Carte("As", "Trêfle"), Carte("5", "Pique")]), tuple([Carte("As", "Coeur"), Carte("2", "Carreau")]), True),
+        ]
+    )
+    def test_piocher(reserve_cartes, main_cartes, attendu, setup_mains):
+        """Test de la méthode piocher pour vérifier qu'une carte est bien ajoutée à la main depuis la réserve."""
+        main_1, _, reserve, _ = setup_mains
+        for carte in reserve_cartes:
+            reserve.ajouter_carte(carte)
+    
+        for carte in main_cartes:
+            main_1.ajouter_carte(carte)
+    
+        main_1.piocher(reserve)
+    
+        assert len(main_1.cartes) == len(main_cartes) + 1
+        assert main_1.cartes[-1] in reserve_cartes
+        assert reserve_cartes[0] not in reserve.cartes
+    
+    
+    @pytest.mark.parametrize(
+        "indice, attente_erreur",
+        [
+            (0, None),
+            (10, IndexError),
+        ],
+    )
+    def test_jeter(indice, attente_erreur, setup_mains):
+        """Test de la méthode jeter pour vérifier qu'une carte est bien enlevée de la main et ajoutée à la défausse."""
+        main_1, _, _, defausse = setup_mains
+        carte_as = main_1.cartes[0]
+        if attente_erreur:
+            with pytest.raises(attente_erreur):
+                main_1.jeter(defausse, indice)
+        else:
+            main_1.jeter(defausse, indice)
+            assert carte_as not in main_1.cartes
+            assert carte_as in defausse.cartes
+    
+    
+    @pytest.mark.parametrize(
+        "indices_combinaison, erreur_attendue",
+        [
+            ([[0, 1, 2]], None),
+            ([[0, 0, 1]], ValueError),
+            ([[0, 10]], IndexError),
+        ]
+    )
+    def test_poser(indices_combinaison, erreur_attendue, setup_mains):
+        """Test de la méthode poser pour vérifier les erreurs et les comportements de validation."""
+        main_1, _, _, _ = setup_mains
+        if erreur_attendue:
+            with pytest.raises(erreur_attendue):
+                main_1.poser(indices_combinaison)
+        else:
+            combinaisons, points = main_1.poser(indices_combinaison)
+            assert len(combinaisons) > 0
+            assert points > 0
+    
+    
+    @pytest.mark.parametrize(
+        "indices_combinaison, points_attendus",
+        [
+            ([[0, 1, 2]], 6),
+            ([[0, 1]], 3),
+        ]
+    )
+    def test_poser_points(indices_combinaison, points_attendus, setup_mains):
+        """Test de la méthode poser pour vérifier le calcul des points."""
+        main_1, _, _, _ = setup_mains
+        combinaisons, points = main_1.poser(indices_combinaison)
+        assert points == points_attendus
+
