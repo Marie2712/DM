@@ -52,7 +52,10 @@ from reserve import Reserve
     "param, resultat_voulu",
     [
         ([], []),
-        ([Carte("Dame", "Trêfle"), Carte("Dame", "Trêfle")]),
+        (
+            [Carte("Dame", "Trêfle"), Carte("Dame", "Trêfle")],
+            [Carte("Dame", "Trêfle"), Carte("Dame", "Trêfle")],
+        ),
         (
             [Carte("Dame", "Trêfle"), Carte("Roi", "Trêfle")],
             [Carte("Dame", "Trêfle"), Carte("Roi", "Trêfle")],
@@ -60,13 +63,13 @@ from reserve import Reserve
     ],
 )
 def test_defausse_init(param, resultat_voulu):
-    """Teste que vider() lève une erreur si le paramètre n'est pas une Reserve."""
-    defausse = Defausse(param)
-    assert defausse._Listecarte__cartes == resultat_voulu
+    """Teste que la défausse est bien initialisée avec les cartes fournies."""
+    defausse = Defausse(param)  # Passer directement les cartes à l'initialisation
+    assert defausse._ListeCartes__cartes == resultat_voulu
 
 
 @pytest.mark.parametrize(
-    "defausse_init, reserve_init, resultat_union_voulu",  # Corrigé ici
+    "defausse_init, reserve_init, resultat_union_voulu",
     [
         ([], [], []),
         ([Carte("As", "Pique")], [], [Carte("As", "Pique")]),
@@ -84,9 +87,15 @@ def test_defausse_init(param, resultat_voulu):
     ],
 )
 def test_defausse_vider(defausse_init, reserve_init, resultat_union_voulu):
-    defausse = Defausse(defausse_init)
-    reserve = Reserve(reserve_init)
+    """Teste que vider() transfère les cartes de la défausse vers la réserve."""
+    defausse = Defausse()
+    defausse._ListeCartes__cartes.extend(defausse_init)  # Utilisation du name mangling
+
+    reserve = Reserve()
+    reserve._ListeCartes__cartes.extend(reserve_init)
+
     defausse.vider(reserve)
-    assert len(defausse == 0)
+
+    assert len(defausse._ListeCartes__cartes) == 0
     nouvelle_reserve = reserve._ListeCartes__cartes
     assert Counter(nouvelle_reserve) == Counter(resultat_union_voulu)
