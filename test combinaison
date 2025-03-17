@@ -1,3 +1,143 @@
+from carte import Carte
+
+
+class Combinaison:
+    """
+    Cette classe permet de modéliser les différents types de combinaisons de cartes
+
+    parameters
+    ------------------------------
+
+    cartes : tuple
+        tuple contenant des cartes de jeux
+
+    """
+    def __init__(self, cartes):
+        """
+        Cette fonction initie le tuple de cartes
+        """
+        if not isinstance(cartes, tuple):
+            raise TypeError("Les cartes doivent être un tuple.")
+        if not all(isinstance(carte, Carte) for carte in cartes):
+            raise TypeError("""Tous les éléments du tuple doivent être des instances de Carte.""")
+        self.__cartes = cartes
+
+    @property
+    def cartes(self):
+        return self.__cartes
+
+    @cartes.setter
+    def cartes(self, cartes):
+        raise AttributeError("L'attribut 'cartes' est en lecture seule.")
+
+    def __eq__(self, other):
+        """
+        On vérifie que ce sont des tuples avec les mêmes cartes,
+        peu importe l'ordre.
+        """
+        if isinstance(other, Combinaison):
+            if not self.__cartes and not other.__cartes:
+                return True
+            if len(self.__cartes) == len(other.__cartes):
+                return set(self.__cartes) == set(other.__cartes)
+        return False
+
+    def __str__(self):
+        return ", ".join(f"{carte.valeur} de {carte.couleur.lower()}" for carte in self.__cartes)
+
+    def __len__(self):
+        return len(self.__cartes)
+
+    def __est_brelan(self):
+        """
+        Vérifie que la combinaison de carte est bien un brelan,
+        il faut que :
+        - Il y a trois cartes
+        - les cartes ont la même valeur
+        - les trois cartes sont des couleurs toutes différentes
+        """
+        if len(self.__cartes) == 3:
+            valeurs = [carte.valeur for carte in self.__cartes]
+            couleurs = [carte.couleur for carte in self.__cartes]
+            return len(set(valeurs)) == 1 and len(set(couleurs)) == 3
+        else:
+            return False
+
+    def __est_carre(self):
+        """
+        Vérfie que la combinaison de carte est bien un carré,
+        il faut que :
+        - Il y a quatre cartes
+        - les cartes ont la même valeur
+        - les quatre cartes sont des couleurs toutes différentes
+        """
+        if len(self.__cartes) == 4:
+            valeurs = [carte.valeur for carte in self.__cartes]
+            couleurs = [carte.couleur for carte in self.__cartes]
+            return len(set(valeurs)) == 1 and len(set(couleurs)) == 4
+        else:
+            return False
+
+    def est_sequence(self):
+        """
+        Vérifie que la combinaison de carte est bien une séquence,
+        il faut donc vérifier que :
+        - il y a au moins 3 cartes
+        - toutes les cartes sont de la même couleur
+        - les cartes se suivent
+        """
+        if len(self.__cartes) >= 3:
+            couleurs = [carte.couleur for carte in self.__cartes]
+            valeurs = sorted([Carte.VALEURS().index(carte.valeur) for carte in self.__cartes])
+
+            if len(set(couleurs)) != 1:
+                return False
+
+            if valeurs == [0, 1, 2]:
+                return True
+            return all(valeurs[i] == valeurs[i-1] + 1 for i in range(1, len(valeurs)))
+        else:
+            return False
+
+    def est_valide(self):
+        """
+        Vérifie que la combinaison est soit une séquence, soit un carré,
+        soit un brelan
+        """
+        if len(self.__cartes) < 3:
+            raise ValueError("Une combinaison doit contenir au moins 3 cartes.")
+        else:
+            return self.__est_brelan() or self.__est_carre() or self.est_sequence()
+
+    def calcule_nombre_points(self):
+        """
+        Permet de calculer les points de chaque combinaison,
+        relève des erreurs si les combinaisons ne sont pas valides.
+        """
+        if not self.est_valide():
+            raise ValueError("La combinaison n'est pas valide.")
+
+        points = 0
+        for carte in self.__cartes:
+            if carte.valeur in ['Valet', 'Dame', 'Roi']:
+                points += 10
+            elif carte.valeur == 'As':
+                if self.est_sequence():
+                    points += 1
+                else:
+                    points += 11
+            else:
+                points += int(carte.valeur)
+        return points
+
+    def get_brelan(self):
+        return self.__est_brelan()
+
+    def get_carre(self):
+        return self.__est_carre()
+
+
+
 import pytest
 from carte import Carte
 from combinaison import Combinaison
