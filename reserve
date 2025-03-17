@@ -49,3 +49,77 @@ class Reserve(_ListeCartes):
             compteur += 1
 
         return mains
+
+
+# test reserve 
+import pytest
+from reserve import Reserve
+from carte import Carte
+
+
+# Test regroupé pour la méthode distribuer
+@pytest.mark.parametrize(
+    "nb_joueurs, indice_premier_joueur, nb_cartes, cartes_distribuees, erreur_attendue",
+    [
+        (1, 0, "14/15", None, "Le nombre de joueurs doit être compris entre 2 et 5."),
+        # Cas où l'indice du premier joueur est invalide
+        (3, 3, "14/15", None, "L'indice du premier joueur est invalide."),
+        # Cas où le nombre de cartes à distribuer est invalide
+        (
+            3,
+            0,
+            "12/13",
+            None,
+            "Le nombre de cartes à distribuer doit être '13/14' ou '14/15'.",
+        ),
+    ],
+)
+def test_distribuer(
+    nb_joueurs, indice_premier_joueur, nb_cartes, cartes_distribuees, erreur_attendue
+):
+    reserve = Reserve()
+
+    # Créer des cartes fictives pour le test uniquement si la distribution doit réussir
+    if erreur_attendue is None:
+        # Liste des valeurs valides pour les cartes
+        valeurs_valides = [
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "Valet",
+            "Dame",
+            "Roi",
+            "As",
+        ]
+        cartes = [
+            Carte(valeur, "Pique")
+            for valeur in valeurs_valides
+            for _ in range(nb_joueurs * cartes_distribuees)
+        ]
+        reserve.ajouter_cartes(cartes)
+
+    if erreur_attendue:
+        with pytest.raises(ValueError) as excinfo:
+            reserve.distribuer(
+                nb_joueurs=nb_joueurs,
+                indice_premier_joueur=indice_premier_joueur,
+                nb_cartes=nb_cartes,
+            )
+        assert str(excinfo.value) == erreur_attendue
+    else:
+        mains = reserve.distribuer(
+            nb_joueurs=nb_joueurs,
+            indice_premier_joueur=indice_premier_joueur,
+            nb_cartes=nb_cartes,
+        )
+
+        # Vérifier que chaque joueur a le bon nombre de cartes
+        assert len(mains) == nb_joueurs
+        assert all(len(main) == cartes_distribuees for main in mains)
+
